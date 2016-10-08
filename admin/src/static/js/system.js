@@ -391,7 +391,7 @@
 	};
 })(window);
 
-// template & author: Sanonz <sanonz@126.com>
+// template
 (function(System, undefined){
 	var cache = {};
 
