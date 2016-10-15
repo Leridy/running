@@ -1,5 +1,6 @@
 var restify = require('restify');
 var blog = require('./controllers/blog_controller');
+var utils=require('./controllers/utils');
 
 function respond(req, res, next) {
     blog.getList(1, 1).done(function (data) {
@@ -14,7 +15,7 @@ var server = restify.createServer();
 server.get('/home/:pageindex/:pagesize', respond);
 
 //通用工具类
-server.get('/utils/getImageCode',)
+server.get('/utils/getImageCode',utils.getImageCode);
 
 
 server.listen(8083, function () {
