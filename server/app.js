@@ -1,12 +1,12 @@
 var restify = require('restify');
 var blog = require('./controllers/blog_controller');
-var utils=require('./controllers/utils');
+var utils = require('./utils/image');
 
 function respond(req, res, next) {
-    blog.getList(1, 1).done(function (data) {
-        res.json(data);
-    });
-    next();
+	blog.getList(1, 1).done(function(data) {
+		res.json(data);
+	});
+	next();
 }
 
 var server = restify.createServer();
@@ -15,9 +15,9 @@ var server = restify.createServer();
 server.get('/home/:pageindex/:pagesize', respond);
 
 //通用工具类
-server.get('/utils/getImageCode',utils.getImageCode);
+server.get('/utils/getImageCode', utils.getImageCode);
 
 
-server.listen(8083, function () {
-    console.log('%s listening at %s', server.name, server.url);
+server.listen(8083, function() {
+	console.log('%s listening at %s', server.name, server.url);
 });
