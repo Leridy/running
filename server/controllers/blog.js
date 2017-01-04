@@ -3,7 +3,7 @@ var dao = require('../dao/data_access');
 ///查询数据
 exports.getList = function(pageindex, pagesize) {
 	var start = pageindex * pagesize - 1;
-	var query_str = 'select * from blog limit ' + start + ',' + pagesize;
+	var query_str = 'select * from blog limit ' + start + ',' + pagesize;	
 	return dao.query(query_str);
 }
 

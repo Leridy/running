@@ -1,5 +1,6 @@
 var restify = require('restify');
-var blog = require('./controllers/blog_controller');
+var blog = require('./controllers/blog');
+var manageUser = require('./manage_controllers/user');
 var utils = require('./utils/image');
 
 function respond(req, res, next) {
@@ -10,8 +11,11 @@ function respond(req, res, next) {
 }
 
 var server = restify.createServer();
-
+server.use(restify.CORS({
+	'origins': ['http://vr.heyhou.com', 'http://vr2.heyhou.com']
+}));
 //admin后台接口
+server.post('/manage/login', manageUser.login);
 server.get('/home/:pageindex/:pagesize', respond);
 
 //通用工具类

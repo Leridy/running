@@ -51,7 +51,7 @@
 	};
 
 	System.api = {
-		url: '//' + (System.localStorage.get('env') || '').charAt(0) + '192.168.1.235/'
+		url: '//127.0.0.1:8083/'
 	};
 
 	Date.prototype.format = function(format) {
@@ -174,8 +174,7 @@
 			data: {}
 		}, options);
 		$.extend(options.data, apiToken);*/
-		options.url = System.api.url + options.url;
-
+		options.url = System.api.url + options.url;        
 		var userInfo = System.localStorage.get('auth', true);
 		if (!!userInfo && options.url.indexOf('manage/login') == -1) {
 			options.data = options.data || {};

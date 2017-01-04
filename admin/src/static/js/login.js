@@ -17,8 +17,7 @@ $(function() {
 				nodes.imgcode.attr('src', System.api.url + 'tools/get_img_code?t=' + Date.now());
 			});
 
-			System.localStorage.set('env', System.getParam('env') || '');
-			System.api.url = '//%s192.168.1.235/'.printf((System.localStorage.get('env') || '').charAt(0));
+			System.localStorage.set('env', System.getParam('env') || '');			
 		},
 		initNodes: function() {
 			$.extend(nodes, {
