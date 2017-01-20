@@ -1,0 +1,7 @@
+{
+	"appenders": [{
+		"type": "file",
+		"filename": "/logs/redis.log",
+		"category": "redis"
+	}]
+}

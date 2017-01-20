@@ -4,6 +4,7 @@
   "description": "private site",
   "main": "index.js",
   "dependencies": {
+    "log4js": "^1.1.0",
     "mysql": "^2.11.1",
     "redis": "^2.6.3",
     "restify": "^4.1.1"

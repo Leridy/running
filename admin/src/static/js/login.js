@@ -17,7 +17,7 @@ $(function() {
 				nodes.imgcode.attr('src', System.api.url + 'tools/get_img_code?t=' + Date.now());
 			});
 
-			System.localStorage.set('env', System.getParam('env') || '');			
+			System.localStorage.set('env', System.getParam('env') || '');
 		},
 		initNodes: function() {
 			$.extend(nodes, {
@@ -78,13 +78,13 @@ $(function() {
 					data: formData,
 					url: 'manage/login'
 				})
-				.done(function(response) {										
+				.done(function(response) {
 					var data = response.data,
 						url;
-					if (response.ret == 0) {
-						System.localStorage.set('auth', response.data.managerInfo);
+					if (response.res == 0) {
+						System.localStorage.set('auth', response.data[0]);
 						System.redirect('index.html');
-					} else if (response.ret == 2103) {
+					} else if (response.res == 2103) {
 						$.toast({
 							icon: 'error',
 							text: '验证码不正确'
