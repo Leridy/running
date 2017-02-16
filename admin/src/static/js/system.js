@@ -174,11 +174,11 @@
 			data: {}
 		}, options);
 		$.extend(options.data, apiToken);*/
-		options.url = System.api.url + options.url;        
+		options.url = System.api.url + options.url;
 		var userInfo = System.localStorage.get('auth', true);
 		if (!!userInfo && options.url.indexOf('manage/login') == -1) {
 			options.data = options.data || {};
-			options.url += '/?managerId=' + userInfo.managerId + '&token=' + userInfo.token;
+			options.url += '?uid=' + userInfo.uid + '&token=' + userInfo.token;
 			// if (typeof(options.data) == 'object') {
 			// 	options.data.token = userInfo.token;
 			// 	options.data.managerId = userInfo.managerId;

@@ -11,19 +11,21 @@ var connection = mysql.createConnection({
 
 });
 
-exports.query = function (querystr) {
-    var deferred = Q.defer(), result;
-    connection.query(querystr, function (err, rows, fields) {
+exports.query = function(querystr) {
+    var deferred = Q.defer(),
+        result;
+    connection.query(querystr, function(err, rows, fields) {
         if (err) {
             result = {
                 res: -1,
-                data: err
+                data: null,
+                msg: err
             };
-        }
-        else {
+        } else {
             result = {
                 res: 0,
-                data: rows
+                data: rows,
+                msg: ''
             }
         }
         deferred.resolve(result);

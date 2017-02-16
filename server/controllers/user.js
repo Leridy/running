@@ -1,6 +1,6 @@
 var dao = require('../dao/data_access');
 
-///查询数据
+//查询数据
 exports.get = function(pageindex, pagesize) {
 	var start = pageindex * pagesize - 1;
 	var query_str = 'select * from user limit ' + start + ',' + pagesize;

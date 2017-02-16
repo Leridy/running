@@ -82,7 +82,7 @@ $(function() {
 					var data = response.data,
 						url;
 					if (response.res == 0) {
-						System.localStorage.set('auth', response.data[0]);
+						System.localStorage.set('auth', response.data);
 						System.redirect('index.html');
 					} else if (response.res == 2103) {
 						$.toast({

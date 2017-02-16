@@ -4,7 +4,7 @@ $(function() {
         System.request({
                 type: 'GET',
                 async: true,
-                url: 'manage/manager/getMangerInfo'
+                url: 'manage/get_manager_info'
             })
             .done(function(response) {                
                 if (response.ret == 0) {
@@ -26,9 +26,9 @@ $(function() {
 
                     $('#wrapper').removeClass('blur');
                 } else {
-                    System.localStorage.del('auth');
+                   /* System.localStorage.del('auth');
                     System.localStorage.del('user');
-                    System.redirect('/login.html');
+                    System.redirect('/login.html');*/
                 }
             });
     } else {

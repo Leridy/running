@@ -8,16 +8,7 @@ $(function() {
 		init: function() {
 			this.initNodes();
 			this.initData();
-
-			nodes.search.on('submit', this.handleSearch);
-			$('[node-type="dropdown-menu"]').on('click', '[data-value]', this.handleFilters);
-			$('#filterTime').on('click', this.handleFilterTime);
-			nodes.table.on('click', '[node-type="pass"]', this.handlePass);
-			nodes.table.on('click', '[node-type="fail"]', this.handleTid);
-			nodes.table.on('click', '[node-type="view"]', this.handleTid);
-			nodes.table.on('click', '[data-freeze]', this.handleFressze);
-			$('#viewModal').on('show.bs.modal', this.handleView);
-			nodes.submit.on('click', this.handleFail);
+			this.bindEvent();
 		},
 		initNodes: function() {
 			$.extend(nodes, {
@@ -36,87 +27,52 @@ $(function() {
 			$.extend(data, {
 				list: [],
 				filter: {
-					status: 1,
-					keyWord: null
+					status: 1
 				}
 			});
 		},
-		handleFressze: function(event) {
+		bindEvent: function() {
+			nodes.table.on('click', '[data-action]', this.handleAction);
+		},
+		handleAction: function(event) {
 			event.preventDefault();
-			var self = $(this),
-				id = self.attr('data-freeze'),
-				type = self.attr('data-type'),
-				flag = Number(!type);
-
-			return System.request({
-				type: 'POST',
-				url: 'user/admin_set_user_disable_comment',
-				data: {
-					userId: id,
-					type: type
-				}
-			})
-			.done(function(response) {
-				if (response.ret == 0) {
-					$.toast({
-						icon: 'success',
-						text: (type==0 ? '取消' : '') + '禁言成功'
-					});
-
-					self.attr('data-type', flag)
-						.html((type==0 ? '' : '取消') + '禁言');
-				} else {
-					$.toast({
-						icon: 'error',
-						text: response.msg
-					});
-				}
-			});
-		},
-		handleTid: function() {
 			var self = $(this);
-			data.btn = self;
-			data.tid = self.attr('data-tid');
-		},
-		handleView: function() {
-			var tid = data.tid,
-				info = data.list[tid];
+			action = self.attr('data-action');
 
-			nodes.detailBody.html(System.template('detailTpl', {
-				info: info
-			}));
-		},
-		handleFilters: function(event) {
-			event.preventDefault();
-			var self = $(this),
-				wrap = $(event.delegateTarget);
-
-			data.filter[wrap.attr('data-name')] = self.attr('data-value');
-			page.refresh();
-
-			wrap.siblings('[node-type="show"]')
-				.html(self.text());
-
-			self.parent()
-				.addClass('active')
-				.siblings('.active')
-				.removeClass('active');
-		},
-		handleFilterTime: function() {
-			var self = $(this),
-				icon = self.children('i');
-
-			if (icon.hasClass('glyphicon-arrow-up')) {
-				data.filter.orderBy = 1;
-				icon.removeClass('glyphicon-arrow-up')
-					.addClass('glyphicon-arrow-down');
-			} else {
-				data.filter.orderBy = 0;
-				icon.removeClass('glyphicon-arrow-down')
-					.addClass('glyphicon-arrow-up');
+			switch (action) {						
+				case 'delete':
+					bootbox.confirm("确认删除?", function(result) {
+						if (result) {
+							page.handleDelete(self, action);
+						}
+					});
+					break;
 			}
+		},
+		handleDelete: function(self, type) {
+			var id = self.attr('data-id');			
+			return System.request({
+					type: 'POST',
+					url: 'manage/delete_user',
+					data: {
+						id: id
+					}
+				})
+				.done(function(response) {
+					if (response.res == 0) {
+						$.toast({
+							icon: 'success',
+							text: '删除成功'
+						});
 
-			page.refresh();
+						nodes.table.bootstrapTable('refresh');
+					} else {
+						$.toast({
+							icon: 'error',
+							text: response.msg
+						});
+					}
+				});
 		},
 		handleSearch: function(event) {
 			event.preventDefault();
@@ -133,82 +89,17 @@ $(function() {
 				}
 			});*/
 		},
-		handlePass: function() {
-			var self = $(this),
-				tid = self.attr('data-tid');
-
-			page.auth({
-					sid: tid,
-					judge: 0
-				})
-				.done(function(response) {
-					if (response.ret == 0) {
-						$.toast({
-							icon: 'success',
-							text: '成功设置为通过审核'
-						});
-						self.closest('td')
-							.prev()
-							.html(page.statusFormatter(null, {
-								status: 2
-							}));
-						self.closest('td')
-							.html('-');
-						$('#failModal').modal('hide');
-					}
-				})
-		},
-		handleFail: function() {
-			page.auth({
-					sid: data.tid,
-					judge: 1,
-					msg: nodes.failmsg.val()
-				})
-				.done(function(response) {
-					var self = data.btn;
-					if (response.ret == 0) {
-						$.toast({
-							icon: 'success',
-							text: '成功设置为不通过审核'
-						});
-						self.closest('td')
-							.prev()
-							.html(page.statusFormatter(null, {
-								status: 1
-							}));
-						self.closest('td')
-							.html('-');
-						$('#failModal').modal('hide');
-					}
-				})
-		},
-		auth: function(formData) {
-			return System.request({
-					type: 'POST',
-					url: 'user/examine_seller',
-					data: formData
-				})
-				.done(function(response) {
-					if (response.ret != 0) {
-						$.toast({
-							icon: 'error',
-							text: response.msg
-						});
-					}
-				})
-		},
 		getData: function(params) {
 			return System.request({
 					type: 'GET',
-					url: 'user/get_user_list',
+					url: 'manage/get_user_list',
 					data: $.extend(data.filter, {
-						isPage: 1,
 						begin: params.data.offset,
 						limit: params.data.limit
 					})
 				})
 				.done(function(response) {
-					if (response.ret == 0) {
+					if (response.res == 0) {
 						var list = {
 							rows: response.data,
 							total: response.count
@@ -225,11 +116,11 @@ $(function() {
 					}
 				})
 		},
-		walletFormatter: function(value, row, index) {
+		managerFormatter: function(value, row, index) {
 			return [
-				'<span class="label label-default">未开通</span>',
-				'<span class="label label-success">已开通</span'
-			][row.wallet];
+				'否',
+				'是'
+			][row.is_admin.data];
 		},
 		statusFormatter: function(value, row, index) {
 			return [
@@ -239,26 +130,18 @@ $(function() {
 		},
 		operateFormatter: function(value, row, index) {
 			return [
-				'<a href="/pages/user-info.html?id=' + row.id + '">详情</a>',
-				'<a href="/pages/user-level-set.html?id=' + row.id + '">设置用户等级</a>',
-				'<a href="javascript:;" data-freeze="' + row.id + '" data-type="' + (Number(!row.disableComment)) + '">' + (!row.disableComment?'禁言':'取消禁言') + '</a>'
+				'<a href="/pages/user-info-edit.html?id=' + row.id + '">编辑</a>',
+				'<a href="javascript:void(0)" data-action="delete" data-id="' + row.id + '">删除</a>',
 			].join('&nbsp;');
-		},	
-		levelFormatter: function(value, row, index) {
-			return [
-				'',
-				'普通用户',
-				'达人用户',
-				'明星用户',
-				'机构用户'
-			][row.level];
-		}				
+		},
+		timeFormatter: function(value, row, index) {
+			return new Date(row.reg_time * 1000).format('Y年M月d日 H:m:s');
+		}
 	};
 
 	page.init();
 	window.getData = page.getData;
-	window.walletFormatter = page.walletFormatter;
-	window.statusFormatter = page.statusFormatter;
-	window.operateFormatter = page.operateFormatter;	
-	window.levelFormatter = page.levelFormatter;
+	window.managerFormatter = page.managerFormatter;
+	window.timeFormatter = page.timeFormatter;
+	window.operateFormatter = page.operateFormatter;
 });

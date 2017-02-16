@@ -12,30 +12,16 @@ $(function() {
 		init: function() {
 			if( data.id ) {
 				this.getPerform(data.id);
-				$('#title').html('修改分类');
+				$('#title').html('修改用户');
 			} else {
 				nodes.form.html(System.template('appTpl', {info: {}}));
 				this.bindEvents();
-				$('#title').html('添加分类');
+				$('#title').html('添加用户');
 			}
 		},
 		initNodes: function() {
 			$.extend(nodes, {
 				wrapper: $('#wrapper'),
-				timeWrap: $('#timeWrap'),
-				performer: $('#performer'),
-				price: $('#price'),
-				time: $('#time'),
-				name: $('#name'),
-				city: $('#city'),
-				place: $('#place'),
-				address: $('#address'),
-				type: $('#type'),
-				ticketTags: $('#ticketTags'),
-				auctionTags: $('#auctionTags'),
-				desc: $('#desc'),
-				postTimeWrap: $('#postTimeWrap'),
-				postype: $('input[name="postype"]'),
 				submit: $('#submit'),	
 			});
 		},
