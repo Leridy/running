@@ -11,12 +11,15 @@ var bucket = 'runningdreamer';
 //构建上传策略函数
 function uptoken(bucket, key) {
 	var putPolicy = new qiniu.rs.PutPolicy(bucket + ":" + key);
+	putPolicy.returnBody = '{"name":$(fname),"size":$(fsize),"w":$(imageInfo.width),"h":$(imageInfo.height),"hash":$(etag),"imageFormat":"$(imageInfo.format)","url":"http://res.runningdreamer.com/' + key + '"}';
+	putPolicy.saveKey = key;
+	putPolicy.scope = bucket;
 	return putPolicy.token();
 }
 
 //生成上传token
 exports.getUploadToken = function(req, res, next) {
-	var key = uuid.v4(),
+	var key = 'image/$(year)/$(mon)/$(day)/' + uuid.v4() + '$(ext)',
 		result = {
 			res: -1,
 			data: null,

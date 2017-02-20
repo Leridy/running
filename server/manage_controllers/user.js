@@ -29,15 +29,19 @@ exports.login = function(req, res, next) {
 					var sessionInfo = [];
 					if (reply) {
 						sessionInfo = JSON.parse(reply);
-						for (var i = 0; i < sessionInfo.length; i++) {
-							if (sessionInfo[i].uid == uid) {
-								sessionInfo[i].token = token;
+						if (sessionInfo.length > 0) {
+							for (var i = 0; i < sessionInfo.length; i++) {
+								if (sessionInfo[i].uid == uid) {
+									sessionInfo[i].token = token;
+								}
 							}
+						} else {
+							sessionInfo.push(currentUInfo);
 						}
 					} else {
 						sessionInfo.push(currentUInfo);
 					}
-					var uInfo = JSON.stringify(sessionInfo);
+					var uInfo = JSON.stringify(sessionInfo);					
 					redisClient.set('sessionInfo', uInfo);
 					var resData = {
 						res: 0,
@@ -49,6 +53,33 @@ exports.login = function(req, res, next) {
 		}
 	});
 	next();
+};
+
+//后台用户登出
+exports.logout = function(req, res, next) {
+	var result = {
+			res: 0,
+			msg: '',
+			data: null
+		},
+		uid = req.params.uid,
+		token = req.params.token;
+	redisClient.get('sessionInfo').then(function(reply) {
+		var sessionInfo = [];
+		if (reply) {
+			sessionInfo = JSON.parse(reply);
+			for (var i = 0; i < sessionInfo.length; i++) {
+				if (sessionInfo[i].uid == uid && sessionInfo[i].token == token) {
+					sessionInfo.splice(i, 1);
+				}
+			}
+		} else {
+			sessionInfo.push(currentUInfo);
+		}
+		var uInfo = JSON.stringify(sessionInfo);
+		redisClient.set('sessionInfo', uInfo);
+		res.json(result);
+	});
 };
 
 //获取后台登录用户信息
@@ -75,6 +106,18 @@ exports.getMangerInfo = function(req, res, next) {
 
 //获取用户列表
 exports.getUserList = function(req, res, next) {
+	auth.verifyReq(req).done(function(flag) {
+		var result = {
+			res: -1,
+			msg: 'uid or token error',
+			data: null
+		};
+		if (flag) {
+
+		} else {
+			res.json(result);
+		}
+	});
 	var start = req.params.begin,
 		pagesize = req.params.limit;
 	var query_str = 'select sql_calc_found_rows id,name,photo,login_name,is_admin,UNIX_TIMESTAMP(reg_time) as reg_time from user limit ' + start + ',' + pagesize;
@@ -97,10 +140,21 @@ exports.getUserList = function(req, res, next) {
 
 //删除指定用户
 exports.deleteUser = function(req, res, next) {
+	auth.verifyReq(req).done(function(flag) {
+		var result = {
+			res: -1,
+			msg: 'uid or token error',
+			data: null
+		};
+		if (flag) {
+
+		} else {
+			res.json(result);
+		}
+	});
 	var id = req.params.id;
 	var query_str = 'delete from user where id="' + id + '"';
 	dao.query(query_str).done(function(data) {
-		console.log(JSON.stringify(data));
 		res.json(data);
 	})
 	next();
@@ -108,46 +162,58 @@ exports.deleteUser = function(req, res, next) {
 
 //新增或者修改用户
 exports.editUser = function(req, res, next) {
+	auth.verifyReq(req).done(function(flag) {
+		var result = {
+			res: -1,
+			msg: 'uid or token error',
+			data: null
+		};
+		if (flag) {
+
+		} else {
+			res.json(result);
+		}
+	});
 	var id = req.params.id || 0,
 		name = req.params.name,
 		photo = req.params.photo,
 		pwd = req.params.pwd,
 		login_name = req.params.login_name,
-		is_admin = req.params.is_admin,
+		is_admin = Boolean(parseInt(req.params.is_admin || 0)),
 		result = {
 			res: -1,
 			data: null,
-			err: ''
+			msg: ''
 		};
 	if (stringHelper.trimAll(name).length == 0) {
-		result.err = '昵称不能为空';
+		result.msg = '昵称不能为空';
 		res.json(result);
 	} else {
 		if (stringHelper.trimAll(photo).length == 0) {
-			result.err = '头像不能为空';
+			result.msg = '头像不能为空';
 			res.json(result);
 		} else {
 			if (stringHelper.trimAll(pwd).length == 0) {
-				result.err = '密码不能为空';
+				result.msg = '密码不能为空';
 				res.json(result);
 			} else {
 				if (stringHelper.trimAll(login_name).length == 0) {
-					result.err = '登录名不能为空';
+					result.msg = '登录名不能为空';
 					res.json(result);
 				} else {
 					var query_str = 'select id from user where login_name="' + login_name + '" and id <> "' + id + '" limit 0,1';
 					dao.query(query_str).done(function(data) {
 						if (data.res == 0) {
 							if (data.data.length == 0) {
-								query_str = 'insert into user(name,photo,pwd,login_name,is_admin) values(' + name + ',' + photo + ',' + pwd + ',' + loginName + ',' + is_admin + ')';
+								query_str = 'insert into user(name,photo,pwd,login_name,is_admin) values("' + name + '","' + photo + '","' + pwd + '","' + login_name + '","' + is_admin + '")';
 								if (id > 0) {
-									query_str = 'update user set name=' + name + ',photo=' + photo + ',pwd=' + pwd + ',login_name=' + login_name + ',is_admin=' + is_admin + ' where id=' + id;
+									query_str = 'update user set name="' + name + '",photo="' + photo + '",login_name="' + login_name + '",is_admin=' + is_admin + ' where id=' + id;
 								}
 								dao.query(query_str).done(function(data2) {
 									res.json(data2);
 								})
 							} else {
-								result.err = '登录名已经存在';
+								result.msg = '登录名已经存在';
 								res.json(result);
 							}
 						} else {
@@ -160,3 +226,25 @@ exports.editUser = function(req, res, next) {
 	}
 	next();
 }
+
+//获取单个用户信息
+exports.getUser = function(req, res, next) {
+	auth.verifyReq(req).done(function(flag) {
+		var result = {
+			res: -1,
+			msg: 'uid or token error',
+			data: null
+		};
+		if (flag) {
+
+		} else {
+			res.json(result);
+		}
+	});
+	var id = req.params.id;
+	var query_str = 'select id,name,photo,login_name,is_admin,UNIX_TIMESTAMP(reg_time) as reg_time from user where id=' + id;
+	dao.query(query_str).done(function(data) {
+		res.json(data);
+	})
+	next();
+};

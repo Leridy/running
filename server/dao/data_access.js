@@ -19,7 +19,7 @@ exports.query = function(querystr) {
             result = {
                 res: -1,
                 data: null,
-                msg: err
+                msg: JSON.stringify(err)
             };
         } else {
             result = {

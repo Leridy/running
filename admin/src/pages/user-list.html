@@ -16,7 +16,8 @@
 
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/bootstrap-table/dist/bootstrap-table.css">
-    <style type="text/css">[node-type="show"]{width:110px;}</style>
+    <link rel="stylesheet" type="text/css" href="/static/bower_components/zoom.js/css/zoom.css">
+    <style type="text/css">[node-type="show"]{width:110px;}.fixed-table-body{overflow: visible;}</style>
 </head>
 <body>
 
@@ -55,6 +56,7 @@
                         <tr>
                             <th data-field="id" data-align="center">用户ID</th>
                             <th data-field="name" data-align="center">昵称</th>     
+                            <th data-formatter="photoFormatter" data-align="center">头像</th>
                             <th data-formatter="timeFormatter" data-align="center">注册时间</th>
                             <th data-field="login_name" data-align="center">登录名</th>
                             <th data-formatter="managerFormatter" data-align="center">是否管理员</th>                        
@@ -76,6 +78,7 @@
 
 <script type="text/javascript" src="/static/js/pages/user-list.js"></script>
 <script type="text/javascript" src="/static/bower_components/bootstrap-table/dist/bootstrap-table.js"></script>
+<script type="text/javascript" src="/static/bower_components/zoom.js/js/zoom.js"></script>
 <script type="text/javascript" src="/static/bower_components/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
 </body>
 </html>

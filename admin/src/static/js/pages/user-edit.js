@@ -5,456 +5,338 @@ $(function() {
 	};
 
 	var data = {
-		id: System.getParam('id')
+		id: System.getParam('id') || 0,
+		formData: {
+			id: 0,
+			photo: '',
+			is_admin: 1
+		},
+		filters: {
+			picture: [{
+				title: "jpg files",
+				extensions: "jpg"
+			}, {
+				title: "jpg files",
+				extensions: "jpeg"
+			}, {
+				title: "jpg files",
+				extensions: "png"
+			}]
+		}
 	};
 
 	var page = {
 		init: function() {
-			if( data.id ) {
-				this.getPerform(data.id);
+			if (data.id) {
+				this.getUserData(data.id).done(function(response) {
+					if (response.res == 0) {
+						data.formData = $.extend(data.formData, response.data[0]);
+						data.formData.is_admin = data.formData.is_admin.data[0];
+						nodes.form.html(System.template('appTpl', {
+							info: data.formData
+						}));
+						page.initNodes();
+						page.bindEvents();
+					}
+				});
 				$('#title').html('修改用户');
 			} else {
-				nodes.form.html(System.template('appTpl', {info: {}}));
-				this.bindEvents();
+				nodes.form.html(System.template('appTpl', {
+					info: data.formData
+				}));
 				$('#title').html('添加用户');
+				this.initNodes();
+				this.bindEvents();
 			}
 		},
 		initNodes: function() {
 			$.extend(nodes, {
 				wrapper: $('#wrapper'),
-				submit: $('#submit'),	
+				submit: $('#submit'),
+				prviewImg: $('#prview-img'),
+				modalImgCropper: $('#modal-img-cropper'),
+				CropperImg: $('#cropper-img'),
+				showPickfileBtn: $('[data-action="showpickfile"]'),
+				modalReplySure: $('#modal-reply-sure'),
+				modalSetSize: $('#modal-set-size'),
+				$dataX: $("#dataX"),
+				$dataY: $("#dataY"),
+				$dataHeight: $("#dataHeight"),
+				$dataWidth: $("#dataWidth")
 			});
+		},
+		initImgCropper: function() {
+			setTimeout(function() {
+				nodes.CropperImg.cropper({
+					aspectRatio: 1 / 1,
+					// autoCropArea: 1,
+					data: {
+						x: 420,
+						y: 50,
+						width: 640,
+						height: 360,
+					},
+					preview: ".preview",
+					done: function(data) {
+						nodes.$dataX.val(data.x);
+						nodes.$dataY.val(data.y);
+						nodes.$dataHeight.val(data.height);
+						nodes.$dataWidth.val(data.width);
+					},
+
+					build: function(e) {
+						//console.log(e.type);
+					},
+
+					built: function(e) {
+						//console.log(e.type);
+					},
+					dragstart: function(e) {
+						//console.log(e.type);
+					},
+					dragmove: function(e) {
+						//console.log(e.type);
+					},
+					dragend: function(e) {
+						//console.log(e.type);
+					}
+				});
+			}, 2000);
 		},
 		initData: function() {
 			var auth = $.parseJSON(System.localStorage.get('auth'));
-			$.extend(data, {
-				auth: auth,
-				date: new Date(),
-				uploaderConfig: {
-					auto: true,
-					fileVal: 'upfile',
-					formData: {
-						uid: auth.uid,
-						token: auth.token
-					},
-				    pick: {
-				    	id: '#upload',
-				    	label: '选择图片'
-				    },
-				    chunked: true, // 开起分片上传。
-				    accept: {
-				    	title: 'Image',
-				    	extensions: 'jpg,jpeg,png',
-					    mimeTypes: 'image/*'
-				    },
-				    thumb: {
-				    	width: 200,
-				    	height: 200,
-				    	crop: false,
-				    	allowMagnify: false
-				    },
-				    disableGlobalDnd: true,
-				    server: System.api.url + '/tools/upload_img',
-				    fileNumLimit: 2,
-				    swf: '/static/bower_components/fex-webuploader/dist/Uploader.swf'
-				}
-			});
-
-			if( !data.formData || !data.formData.id ) {
-				$.extend(data, {
-					formData: {
-						category: '演唱会'
-					}
-				});
-			}
 		},
 		bindEvents: function() {
-			
+			this.formUpload();
+			nodes.showPickfileBtn.on('click', this.handleShowPickFile);
+			nodes.modalReplySure.on('click', this.handleReplySure);
+			nodes.submit.on('click', this.handleSubmitForm);
 		},
-		handleTimeWatch: function(e) {
-			if( this.value ) {
-				data.formData.time = this.value;				
-			} else {				
-				data.formData.time = moment(e.date).format('YYYY-MM-DD HH:mm');
-			}			
-		},
-		handlePerformerWatch: function() {
-			var self = $(this);
-
-			data.formData.performer = self.val();
-		},
-		handlePriceDescWatch: function() {
-			var self = $(this),
-				price = self.val();
-
-			data.formData.priceDesc = price;
-			self.val(price);
-		},
-		handleNameWatch: function() {
-			var self = $(this);
-
-			data.formData.name = self.val();
-		},
-		handleCityWatch: function() {
-			var self = $(this);
-
-			data.formData.city = self.val();
-		},
-		handlePlaceWatch: function() {
-			var self = $(this);
-
-			data.formData.place = self.val();
-		},
-		handleAddressWatch: function() {
-			var self = $(this);
-
-			data.formData.address = self.val();
-		},
-		handleTypeWatch: function() {
-			var self = $(this);
-
-			data.formData.category = self.val();
-		},
-		handleDescWatch: function() {
-			var self = $(this);
-
-			data.formData.description = self.val();
-		},
-		getPerform: function(id) {
+		getUserData: function(id) {
 			return System.request({
-				type: 'GET',
-				url: '/perform/detail',
-				data: {id: id}
-			})
-			.done(function(response) {
-				if( response.ret == 0 ) {
-					data.formData = response.data;
-					nodes.form.html(System.template('appTpl', {info: response.data}));
-					page.bindEvents();
-				} else {
+					type: 'get',
+					url: 'manage/get_user',
+					data: {
+						id: id
+					}
+				})
+				.done(function(response) {
+					if (response.res != 0) {
+						$.toast({
+							icon: 'error',
+							text: response.msg
+						});
+					}
+				})
+				.fail(function() {
 					$.toast({
 						icon: 'error',
-						text: response.msg
+						text: '网络错误'
 					});
-				}
-			})
-			.fail(function() {
-				nodes.form.html('<h4 class="text-muted text-center">网络错误</h4>');
-			});
+				});
+
 		},
-		handleSubmit: function(event) {
+		handleSubmitForm: function(event) {
 			event.preventDefault();
-			var formData = $.extend({}, data.formData);
-			formData.time || (formData.time = nodes.time.val());
-			if( !formData.time ) {
+			var formData = $.extend(data.formData, nodes.form.serializeObject());
+			formData.id = data.id;
+			if (!formData.name) {
 				$.toast({
 					icon: 'error',
-					text: '请选择演出时间'
+					text: '请输入昵称'
 				});
 				return;
 			}
-			formData.upload = nodes.postype.filter(':checked').val();
-			formData.ticketTags = nodes.ticketTags.tagsinput('items').join('|');
-			formData.auctionTags = nodes.auctionTags.tagsinput('items').join('|');
-
-			if( !formData.large ) {
+			if (!formData.photo) {
 				$.toast({
 					icon: 'error',
-					text: '请上传首页图片'
+					text: '请上传头像'
 				});
 				return;
 			}
-			if( !formData.small ) {
+			if (formData.id == 0) {
+				if (!formData.pwd1) {
+					$.toast({
+						icon: 'error',
+						text: '请输入密码'
+					});
+					return;
+				}
+				if (!formData.pwd) {
+					$.toast({
+						icon: 'error',
+						text: '请输入确认密码'
+					});
+					return;
+				}
+				if (formData.pwd1 != formData.pwd) {
+					$.toast({
+						icon: 'error',
+						text: '两次密码输入不一致'
+					});
+					return;
+				}
+				formData.pwd1 = md5(formData.pwd1);
+				formData.pwd = md5(formData.pwd);
+			}
+			if (!formData.login_name) {
 				$.toast({
 					icon: 'error',
-					text: '请上传演出详情小图'
+					text: '请输入登录名'
 				});
 				return;
 			}
-			if( !formData.medium ) {
-				$.toast({
-					icon: 'error',
-					text: '请上传演出详情大图'
-				});
-				return;
-			}
-			//if( !formData.seatMap ) {
-			//	$.toast({
-			//		icon: 'error',
-			//		text: '请上传座位图'
-			//	});
-			//	return;
-			//}
-
-			formData.performId = formData.id;
-			delete formData.id;
 			nodes.submit.prop('disabled', true);
 			return System.request({
-				type: 'POST',
-				url: 'perform/admin_' + (!formData.performId ? 'add' : 'edit') + '_perform',
-				data: formData
-			})
-			.done(function(response) {
-				if( response.ret == 0 ) {
-					$.toast({
-						icon: 'success',
-						text: !formData.performId ? '恭喜您发布成功' : '恭喜您修改成功'
-					});
-					setTimeout(function() {
-						System.redirect('/pages/perform-list.html');
-					}, 1000);
-				} else {
+					type: 'POST',
+					url: 'manage/edit_user',
+					data: formData
+				})
+				.done(function(response) {
+					if (response.res == 0) {
+						$.toast({
+							icon: 'success',
+							text: !formData.id ? '恭喜您发布成功' : '恭喜您修改成功'
+						});
+						setTimeout(function() {
+							System.redirect('/pages/user-list.html');
+						}, 800);
+					} else {
+						$.toast({
+							icon: 'error',
+							text: response.msg
+						});
+					}
+				})
+				.fail(function() {
 					$.toast({
 						icon: 'error',
-						text: response.msg
+						text: '网络错误'
 					});
-				}
-			})
-			.fail(function() {
-				$.toast({
-					icon: 'error',
-					text: '网络错误'
+				})
+				.always(function() {
+					nodes.submit.prop('disabled', false);
 				});
-			})
-			.always(function() {
-				nodes.submit.prop('disabled', false);
-			})
 		},
-		performUpload: function() {
-			var auth = $.parseJSON(System.localStorage.get('auth'));
+		handleReplySure: function() {
+			var imgData = nodes.CropperImg.cropper("getData", true);
+			var pictureUrl = data.formData.photo;
+			if (imgData.width && data.formData.photo) {
+				if (pictureUrl.indexOf('?imageMogr2') == -1) {
+					pictureUrl = pictureUrl + '?imageMogr2/crop/!%sx%sa%sa%s'.printf(imgData.width, imgData.height, imgData.x, imgData.y);
+				} else {
+					pictureUrl = pictureUrl.substring(0, pictureUrl.indexOf('?'));
+					pictureUrl = pictureUrl + '?imageMogr2/crop/!%sx%sa%sa%s'.printf(imgData.width, imgData.height, imgData.x, imgData.y);
+				}
+			}
+			data.formData.photo = pictureUrl;
+			nodes.prviewImg.attr('src', pictureUrl);
+			nodes.modalImgCropper.modal('hide');
+		},
+		handleShowPickFile: function(event) {
+			event.preventDefault();
+			nodes.modalImgCropper.modal('show');
+			if (nodes.CropperImg.attr('src')) {
+				nodes.CropperImg.cropper('destroy');
+				page.initImgCropper();
+			}
+		},
+		formUpload: function() {
 			var width = 690;
 			var height = 390;
-			data.uploaderConfig.pick.id = '#performUpload';
-			var uploader = new WebUploader.Uploader($.extend(data.uploaderConfig, {
-			    thumb: {
-			    	width: width,
-			    	height: height,
-			    	crop: false,
-			    	allowMagnify: false
-			    }
-			}))
-			.on('fileQueued', function(file) {
-				$('#performThumb')
-					.show()
-					.find('img')
-					.attr({
-						'width': 128,
-						'height': 128,
-						'src': '/static/images/loading.gif'
-					});
-				data.file && uploader.removeFile(data.file, true);
-				data.file = file;
-			})
-			.on('uploadSuccess', function(file, response) {
-				if( response.ret == 0 ) {
-					data.formData.large = response.data.imgUrl;
-					$('#performThumb')
-						.show()
-						.find('img')
-						.attr({
-							'width': width,
-							'height': height,
-							'src': data.formData.large
+			var btnText = null;
+			var uploader = Qiniu.uploader({
+				runtimes: 'html5,flash,html4', // 上传模式，依次退化
+				browse_button: 'upload-photo', // 上传选择的点选按钮，必需
+				// 在初始化时，uptoken，uptoken_url，uptoken_func三个参数中必须有一个被设置
+				// 切如果提供了多个，其优先级为uptoken > uptoken_url > uptoken_func
+				// 其中uptoken是直接提供上传凭证，uptoken_url是提供了获取上传凭证的地址，如果需要定制获取uptoken的过程则可以设置uptoken_func
+				// uptoken : '<Your upload token>', // uptoken是上传凭证，由其他程序生成
+				// uptoken_url: '/uptoken',		 // Ajax请求uptoken的Url，强烈建议设置（服务端提供）
+				uptoken_func: function(file) { // 在需要获取uptoken时，该方法会被调用
+					var token = null;
+					System.request({
+							type: 'GET',
+							async: false,
+							data: {},
+							url: 'utils/get_upload_token'
+						})
+						.done(function(response) {
+							token = response.data;
 						});
-				} else {
-					$.toast({
-						icon: 'error',
-						text: response.msg
-					});
-					uploader.removeFile(file, true);
-				}
-			})
-			.on('error', function(code) {
-				switch(code)
-				{
-					case 'Q_EXCEED_SIZE_LIMIT':
-					break;
-					case 'Q_TYPE_DENIED':
+					return token;
+				},
+				filters: data.filters.picture,
+				get_new_uptoken: true, // 设置上传文件的时候是否每次都重新获取新的uptoken
+				// downtoken_url: '/downtoken',
+				// Ajax请求downToken的Url，私有空间时使用，JS-SDK将向该地址POST文件的key和domain，服务端返回的JSON必须包含url字段，url值为该文件的下载地址
+				// unique_names: true,			  // 默认false，key为文件名。若开启该选项，JS-SDK会为每个文件自动生成key（文件名）
+				// save_key: true,				  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+				domain: '<Your bucket domain>', // bucket域名，下载资源时用到，必需
+				container: 'container', // 上传区域DOM ID，默认是browser_button的父元素
+				max_file_size: '100mb', // 最大文件体积限制
+				flash_swf_url: '/static/bower_components/plupload/js/Moxie.swf', //引入flash，相对路径
+				max_retries: 0, // 上传失败最大重试次数
+				dragdrop: true, // 开启可拖曳上传
+				drop_element: 'container', // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+				// chunk_size: '4mb',				  // 分块上传时，每块的体积
+				auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+				multi_selection: true,
+				init: {
+					'FilesAdded': function(up, files) {
+						plupload.each(files, function(file) {
+							// 文件添加进队列后，处理相关的事情
+						});
+					},
+					'BeforeUpload': function(up, file) {
+						var btn = up.getOption('browse_button')[0];
+						btn.disabled = true;
+						if (!btnText) {
+							btnText = btn.innerHTML;
+						}
+					},
+					'UploadProgress': function(up, file) {
+						var btn = up.getOption('browse_button')[0];
+						btn.innerHTML = '已上传%s%'.printf(file.percent);
+					},
+					'FileUploaded': function(up, file, info) {
+						var result = $.parseJSON(info);
+						btn = up.getOption('browse_button')[0];
+						if (nodes.CropperImg.attr('src')) {
+							nodes.CropperImg.cropper('destroy');
+						}
+						nodes.CropperImg.attr('src', result.url);
+						page.initImgCropper();
+						data.formData.photo = result.url;
+						btn.innerHTML = btnText;
+						btn.disabled = false;
+					},
+					'Error': function(up, err, errTip) {
+						var result = $.parseJSON(err.response),
+							btn = up.getOption('browse_button')[0];
 						$.toast({
 							icon: 'error',
-							text: '文件类型不支持'
+							text: result.error
 						});
-					break;
-				}
-			});
-		},
-		smallUpload: function() {
-			var auth = $.parseJSON(System.localStorage.get('auth'));
-			var width = 208;
-			var height = 280;
-			data.uploaderConfig.pick.id = '#smallUpload';
-			var uploader = new WebUploader.Uploader($.extend(data.uploaderConfig, {
-			    thumb: {
-			    	width: width,
-			    	height: height,
-			    	crop: false,
-			    	allowMagnify: false
-			    }
-			}))
-			.on('fileQueued', function(file) {
-				$('#smallThumb')
-					.show()
-					.find('img')
-					.attr({
-						'width': 128,
-						'height': 128,
-						'src': '/static/images/loading.gif'
-					});
-				data.file && uploader.removeFile(data.file, true);
-				data.file = file;
-			})
-			.on('uploadSuccess', function(file, response) {
-				if( response.ret == 0 ) {
-					data.formData.small = response.data.imgUrl;
-					$('#smallThumb')
-						.show()
-						.find('img')
-						.attr({
-							'width': width,
-							'height': height,
-							'src': data.formData.small
-						});
-				} else {
-					$.toast({
-						icon: 'error',
-						text: response.msg
-					});
-					uploader.removeFile(file, true);
-				}
-			})
-			.on('error', function(code) {
-				switch(code)
-				{
-					case 'Q_EXCEED_SIZE_LIMIT':
-					break;
-					case 'Q_TYPE_DENIED':
-						$.toast({
-							icon: 'error',
-							text: '文件类型不支持'
-						});
-					break;
-				}
-			});
-		},
-		largeUpload: function() {
-			var auth = $.parseJSON(System.localStorage.get('auth'));
-			var width = 750;
-			var height = 1010;
-			data.uploaderConfig.pick.id = '#largeUpload';
-			var uploader = new WebUploader.Uploader($.extend(data.uploaderConfig, {
-			    thumb: {
-			    	width: width,
-			    	height: height,
-			    	crop: false,
-			    	allowMagnify: false
-			    }
-			}))
-			.on('fileQueued', function(file) {
-				$('#largeThumb')
-					.show()
-					.find('img')
-					.attr({
-						'width': 128,
-						'height': 128,
-						'src': '/static/images/loading.gif'
-					});
-				data.file && uploader.removeFile(data.file, true);
-				data.file = file;
-			})
-			.on('uploadSuccess', function(file, response) {
-				if( response.ret == 0 ) {
-					data.formData.medium = response.data.imgUrl;
-					$('#largeThumb')
-						.show()
-						.find('img')
-						.attr({
-							'width': width,
-							'height': height,
-							'src': data.formData.medium
-						});
-				} else {
-					$.toast({
-						icon: 'error',
-						text: response.msg
-					});
-					uploader.removeFile(file, true);
-				}
-			})
-			.on('error', function(code) {
-				switch(code)
-				{
-					case 'Q_EXCEED_SIZE_LIMIT':
-					break;
-					case 'Q_TYPE_DENIED':
-						$.toast({
-							icon: 'error',
-							text: '文件类型不支持'
-						});
-					break;
-				}
-			});
-		},
-		ticketUpload: function() {
-			var auth = $.parseJSON(System.localStorage.get('auth'));
-			var width = 750;
-			var height = 750;
-			data.uploaderConfig.pick.id = '#ticketUpload';
-			var uploader = new WebUploader.Uploader($.extend(data.uploaderConfig, {
-			    thumb: {
-			    	width: width,
-			    	height: height,
-			    	crop: false,
-			    	allowMagnify: false
-			    }
-			}))
-			.on('fileQueued', function(file) {
-				$('#ticketThumb')
-					.show()
-					.find('img')
-					.attr({
-						'width': 128,
-						'height': 128,
-						'src': '/static/images/loading.gif'
-					});
-				data.file && uploader.removeFile(data.file, true);
-				data.file = file;
-			})
-			.on('uploadSuccess', function(file, response) {
-				if( response.ret == 0 ) {
-					data.formData.seatMap = response.data.imgUrl;
-					$('#ticketThumb')
-						.show()
-						.find('img')
-						.attr({
-							'width': width,
-							'height': height,
-							'src': data.formData.seatMap
-						});
-				} else {
-					$.toast({
-						icon: 'error',
-						text: response.msg
-					});
-					uploader.removeFile(file, true);
-				}
-			})
-			.on('error', function(code) {
-				switch(code)
-				{
-					case 'Q_EXCEED_SIZE_LIMIT':
-					break;
-					case 'Q_TYPE_DENIED':
-						$.toast({
-							icon: 'error',
-							text: '文件类型不支持'
-						});
-					break;
-				}
-			});
-		}
-	};
 
+						btn.disabled = false;
+						btn.innerHTML = btnText;
+					},
+					'UploadComplete': function() {
+						//队列文件处理完毕后，处理相关的事情
+					},
+					'Key': function(up, file) {
+						// 若想在前端对每个文件的key进行个性化处理，可以配置该函数
+						// 该配置必须要在unique_names: false，save_key: false时才生效
+
+						var key = undefined;
+						// do something with key here
+						return key
+					}
+				}
+			});
+			data.uploader = uploader;
+		},
+	}
 	page.init();
-	window.getData = page.getData;
-
 });

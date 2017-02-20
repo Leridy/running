@@ -6,7 +6,7 @@ $(function() {
                 async: true,
                 url: 'manage/get_manager_info'
             })
-            .done(function(response) {                
+            .done(function(response) {
                 if (response.ret == 0) {
                     return;
                     var user = response.data;
@@ -26,9 +26,9 @@ $(function() {
 
                     $('#wrapper').removeClass('blur');
                 } else {
-                   /* System.localStorage.del('auth');
-                    System.localStorage.del('user');
-                    System.redirect('/login.html');*/
+                    /* System.localStorage.del('auth');
+                     System.localStorage.del('user');
+                     System.redirect('/login.html');*/
                 }
             });
     } else {
@@ -59,14 +59,15 @@ $(function() {
     });
 
     $('#logout').on('click', function(e) {
-        e.preventDefault();        
+        e.preventDefault();
         System.request({
-            type: 'GET',
-            url: 'manage/manager/logout'         
+            type: 'post',
+            url: 'manage/logout'
         }).done(function() {
             System.localStorage.del('auth');
-            alert('退出成功');
-            System.redirect('/login.html');
+            bootbox.alert('退出成功', function() {
+                System.redirect('/login.html');
+            });
         });
     });
 

@@ -39,7 +39,7 @@ $(function() {
 			var self = $(this);
 			action = self.attr('data-action');
 
-			switch (action) {						
+			switch (action) {
 				case 'delete':
 					bootbox.confirm("确认删除?", function(result) {
 						if (result) {
@@ -50,7 +50,7 @@ $(function() {
 			}
 		},
 		handleDelete: function(self, type) {
-			var id = self.attr('data-id');			
+			var id = self.attr('data-id');
 			return System.request({
 					type: 'POST',
 					url: 'manage/delete_user',
@@ -130,12 +130,17 @@ $(function() {
 		},
 		operateFormatter: function(value, row, index) {
 			return [
-				'<a href="/pages/user-info-edit.html?id=' + row.id + '">编辑</a>',
+				'<a href="/pages/user-edit.html?id=' + row.id + '">编辑</a>',
 				'<a href="javascript:void(0)" data-action="delete" data-id="' + row.id + '">删除</a>',
 			].join('&nbsp;');
 		},
 		timeFormatter: function(value, row, index) {
 			return new Date(row.reg_time * 1000).format('Y年M月d日 H:m:s');
+		},
+		photoFormatter: function(value, row, index) {
+			return [
+				'<img src="' + row.photo + '" data-action="zoom" width="35" onerror=\'this.error=null;this.src="/static/images/perform-default-cover.png"\' />'
+			].join('');
 		}
 	};
 
@@ -144,4 +149,5 @@ $(function() {
 	window.managerFormatter = page.managerFormatter;
 	window.timeFormatter = page.timeFormatter;
 	window.operateFormatter = page.operateFormatter;
+	window.photoFormatter = page.photoFormatter;
 });

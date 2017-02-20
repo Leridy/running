@@ -17,4 +17,10 @@ exports.verify = function(uid, token) {
 		deferred.resolve(flag);
 	});
 	return deferred.promise;
+};
+
+exports.verifyReq = function(req) {
+	var uid = req.params.uid,
+		token = req.params.token;
+	return this.verify(uid, token);
 }
