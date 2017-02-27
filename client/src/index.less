@@ -1,0 +1,27 @@
+html, body, :global(#root) {
+	height: 100%;
+	font-size: 20px;
+}
+:global {
+	.pagination {
+		display: table;
+		margin: 40px auto;
+
+		li {
+			display: inline-block;
+
+			a {
+				padding: 0 5px;
+				color: #666;
+			}
+			&.active {
+				a {
+					color: #ff7300;
+				}
+			}
+		}
+		.break a {
+			cursor: default;
+		}
+	}
+}

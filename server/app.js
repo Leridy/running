@@ -8,7 +8,6 @@ var qiniuUtils = require('./utils/qiniuHelper');
 
 function respond(req, res, next) {
 	blog.getList(1, 1).done(function(data) {
-		//sss
 		res.json(data);
 	});
 	next();
