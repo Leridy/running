@@ -132,6 +132,13 @@ $(function() {
 				});
 				return;
 			}
+			if (!formData.desc) {
+				$.toast({
+					icon: 'error',
+					text: '请输入摘要'
+				});
+				return;
+			}
 			nodes.submit.prop('disabled', true);
 			return System.request({
 					type: 'POST',

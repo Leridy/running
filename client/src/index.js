@@ -4,6 +4,8 @@ import {
 	browserHistory
 } from 'dva/router';
 
+import './utils/util';
+
 import createLoading from 'dva-loading';
 
 // 1. Initialize
@@ -16,8 +18,8 @@ app.use(createLoading());
 
 // 3. Model
 app.model(require('./models/header'));
-
 app.model(require("./models/Index"));
+app.model(require("./models/ArticleInfo"));
 
 // 4. Router
 app.router(require('./router'));

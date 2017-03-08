@@ -34,29 +34,27 @@ $(function() {
 			action = self.attr('data-action');
 
 			switch (action) {
-				case 'delete':
-					bootbox.confirm("确认删除?", function(result) {
-						if (result) {
-							page.handleDelete(self, action);
-						}
-					});
+				case 'operate':
+					page.handleOperate(self, action);
 					break;
 			}
 		},
-		handleDelete: function(self, type) {
-			var id = self.attr('data-id');
+		handleOperate: function(self, type) {
+			var id = self.attr('data-id'),
+				isDelete = self.attr('data-delete') == 1 ? 0 : 1;
 			return System.request({
-					type: 'get',
-					url: 'manage/delete_article',
+					type: 'post',
+					url: 'manage/show_or_hide_links_detail',
 					data: {
-						id: id
+						id: id,
+						isDelete: isDelete
 					}
 				})
 				.done(function(response) {
 					if (response.res == 0) {
 						$.toast({
 							icon: 'success',
-							text: '删除成功'
+							text: '操作成功'
 						});
 						nodes.table.bootstrapTable('refresh');
 					} else {
@@ -70,7 +68,7 @@ $(function() {
 		getData: function(params) {
 			return System.request({
 					type: 'GET',
-					url: 'manage/get_article_list',
+					url: 'manage/get_links_list',
 					data: $.extend(data.filter, {
 						begin: params.data.offset,
 						limit: params.data.limit
@@ -95,17 +93,17 @@ $(function() {
 		},
 		operateFormatter: function(value, row, index) {
 			return [
-				'<a href="/pages/article-edit.html?id=' + row.id + '">编辑</a>',
-				'<a href="javascript:void(0)" data-action="delete" data-id="' + row.id + '">删除</a>'
+				'<a href="/pages/friend-links-edit.html?id=' + row.id + '">编辑</a>',
+				'<a href="javascript:void(0)" data-action="operate" data-id="' + row.id + '" data-delete="' + row.is_delete.data[0] + '">' + (row.is_delete.data[0] == 1 ? '显示' : '隐藏') + '</a>'
 			].join('&nbsp;');
 		},
-		timeFormatter: function(value, row, index) {
-			return new Date(row.create_time * 1000).format('Y年M月d日 H:m:s');
+		deleteFormatter: function(value, row, index) {
+			return ['显示', '隐藏'][row.is_delete.data[0]];
 		},
 	};
 
 	page.init();
 	window.getData = page.getData;
 	window.operateFormatter = page.operateFormatter;
-	window.timeFormatter = page.timeFormatter;
+	window.deleteFormatter = page.deleteFormatter;
 });

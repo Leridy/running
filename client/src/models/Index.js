@@ -3,23 +3,28 @@ import * as articleService from '../services/article';
 export default {
   namespace: 'Index',
   state: {
-    previousLabel:'上一页',
-    nextLabel:'下一页',
-    pageCount:0
+    previousLabel: '上一页',
+    nextLabel: '下一页',
+    pageCount: 0,
+    dataSource: [],
+    pageSize: 10
   },
   reducers: {
-    save(state,{ payload: { data: data } }){
-    
+    save(state,{ payload: { data: data, pageIndex:pageIndex } }){
+      if (data.res == 0) {
+        if (pageIndex == 1) {
+          state.pageCount = Math.ceil(data.count / state.pageSize);
+        };
+        state.dataSource = data.data;
+      }
       return { ...state };
-    }    
+    }
   },
   effects: {
-  	*fetch({ payload: { pageIndex }}, { call, put, select }) {  
-      const limit = yield select(state => state.Index.limit);      
-      const offset = limit * (pageIndex - 1);
-      const { data, headers } = yield call(articleService.fetch, { offset, limit });
-      yield put({ type: 'save', payload: { data:data }});
-    }   
+  	*fetch({ payload: { pageIndex }}, { call, put, select }) {        
+      const { data, headers } = yield call(articleService.fetch, { pageIndex });
+      yield put({ type: 'save', payload: { data:data, pageIndex:pageIndex }});
+    }
   },
   subscriptions: {
     setup({ dispatch, history }) {

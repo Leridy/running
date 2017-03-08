@@ -2,103 +2,50 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './Index.less';
 import { Icon } from 'react-fa';
+import { Link } from 'dva/router';
 import ReactPaginate from 'react-paginate';
 
-function Index({ previousLabel,nextLabel,pageCount }) {
-    function handlePageClick() {
-
-    }
+function Index({ previousLabel, nextLabel, pageCount, dataSource, dispatch }) {
+  function handlePageClick(data) {
+    var selectIndex = parseInt(data.selected + 1);    
+    dispatch({
+      type: 'Index/fetch',
+      payload: {
+        pageIndex: selectIndex
+      }
+    });
+  }
   return (
     <div className={styles.normal}>
       <div className={styles.articleList}>
-        <div className={styles.article}>
-            <div className={styles.articleTitle}>
-                <a id="homepage1_HomePageDays_DaysList_ctl00_DayList_TitleUrl_0" href="http://www.cnblogs.com/coco1s/p/6402723.html">使用 position:sticky 实现粘性布局</a>
-            </div>        
-            <div className={styles.articleDate}>
-                <a id="homepage1_HomePageDays_DaysList_ctl00_ImageLink" href="http://www.cnblogs.com/coco1s/archive/2017/02/15.html">
-                 <Icon name="calendar-check-o" />
-                 <span className={styles.date}>2017年2月15日</span>
-                </a>
-            </div>
-            <div className={styles.postCon}>
-                <div className={styles.postDesc}>
-                    摘要: 如果问，CSS 中 position 属性的取值有几个？大部分人的回答是，大概是下面这几个吧？ 额，其实，我们还可以有这 3 个取值： 没了吗？偶然发现其实还有一个处于实验性的取值，position:sticky（戳我查看MDN解释）： 卧槽，什么来的？ 前端发展太快，新东西目接不暇，但是对于有趣的
-                    <p><a href="http://www.cnblogs.com/coco1s/p/6402723.html">阅读全文</a></p>
-                </div>
-            </div>          
-            <div className={styles.postAttr}>
-                posted @ 2017-02-15 18:41 ChokCoco&nbsp;阅读(1396)            
-            </div>          
-        </div>
-        <div className={styles.article}>
-            <div className={styles.articleTitle}>
-                <a id="homepage1_HomePageDays_DaysList_ctl00_DayList_TitleUrl_0" href="http://www.cnblogs.com/coco1s/p/6402723.html">使用 position:sticky 实现粘性布局</a>
-            </div>        
-            <div className={styles.articleDate}>
-                <a id="homepage1_HomePageDays_DaysList_ctl00_ImageLink" href="http://www.cnblogs.com/coco1s/archive/2017/02/15.html">2017年2月15日</a>
-            </div>
-            <div className={styles.postCon}>
-                <div className={styles.postDesc}>
-                    摘要: 如果问，CSS 中 position 属性的取值有几个？大部分人的回答是，大概是下面这几个吧？ 额，其实，我们还可以有这 3 个取值： 没了吗？偶然发现其实还有一个处于实验性的取值，position:sticky（戳我查看MDN解释）： 卧槽，什么来的？ 前端发展太快，新东西目接不暇，但是对于有趣的
-                    <p><a href="http://www.cnblogs.com/coco1s/p/6402723.html">阅读全文</a></p>
-                </div>
-            </div>          
-            <div className={styles.postAttr}>
-                posted @ 2017-02-15 18:41 ChokCoco&nbsp;阅读(1396)         
-            </div>   
-        </div>
-        <div className={styles.article}>
-            <div className={styles.articleTitle}>
-                <a id="homepage1_HomePageDays_DaysList_ctl00_DayList_TitleUrl_0" href="http://www.cnblogs.com/coco1s/p/6402723.html">使用 position:sticky 实现粘性布局</a>
-            </div>        
-            <div className={styles.articleDate}>
-                <a id="homepage1_HomePageDays_DaysList_ctl00_ImageLink" href="http://www.cnblogs.com/coco1s/archive/2017/02/15.html">2017年2月15日</a>
-            </div>
-            <div className={styles.postCon}>
-                <div className={styles.postDesc}>
-                    摘要: 如果问，CSS 中 position 属性的取值有几个？大部分人的回答是，大概是下面这几个吧？ 额，其实，我们还可以有这 3 个取值： 没了吗？偶然发现其实还有一个处于实验性的取值，position:sticky（戳我查看MDN解释）： 卧槽，什么来的？ 前端发展太快，新东西目接不暇，但是对于有趣的
-                    <p><a href="http://www.cnblogs.com/coco1s/p/6402723.html">阅读全文</a></p>
-                </div>
-            </div>          
-            <div className={styles.postAttr}>
-                posted @ 2017-02-15 18:41 ChokCoco&nbsp;阅读(1396)            
-            </div>          
-        </div>
-        <div className={styles.article}>
-            <div className={styles.articleTitle}>
-                <a id="homepage1_HomePageDays_DaysList_ctl00_DayList_TitleUrl_0" href="http://www.cnblogs.com/coco1s/p/6402723.html">使用 position:sticky 实现粘性布局</a>
-            </div>        
-            <div className={styles.articleDate}>
-                <a id="homepage1_HomePageDays_DaysList_ctl00_ImageLink" href="http://www.cnblogs.com/coco1s/archive/2017/02/15.html">2017年2月15日</a>
-            </div>
-            <div className={styles.postCon}>
-                <div className={styles.postDesc}>
-                    摘要: 如果问，CSS 中 position 属性的取值有几个？大部分人的回答是，大概是下面这几个吧？ 额，其实，我们还可以有这 3 个取值： 没了吗？偶然发现其实还有一个处于实验性的取值，position:sticky（戳我查看MDN解释）： 卧槽，什么来的？ 前端发展太快，新东西目接不暇，但是对于有趣的
-                    <p><a href="http://www.cnblogs.com/coco1s/p/6402723.html">阅读全文</a></p>
-                </div>
-            </div>          
-            <div className={styles.postAttr}>
-                posted @ 2017-02-15 18:41 ChokCoco&nbsp;阅读(1396)            
-            </div>          
-        </div>
-        <div className={styles.article}>
-            <div className={styles.articleTitle}>
-                <a id="homepage1_HomePageDays_DaysList_ctl00_DayList_TitleUrl_0" href="http://www.cnblogs.com/coco1s/p/6402723.html">使用 position:sticky 实现粘性布局</a>
-            </div>        
-            <div className={styles.articleDate}>
-                <a id="homepage1_HomePageDays_DaysList_ctl00_ImageLink" href="http://www.cnblogs.com/coco1s/archive/2017/02/15.html">2017年2月15日</a>
-            </div>
-            <div className={styles.postCon}>
-                <div className={styles.postDesc}>
-                    摘要: 如果问，CSS 中 position 属性的取值有几个？大部分人的回答是，大概是下面这几个吧？ 额，其实，我们还可以有这 3 个取值： 没了吗？偶然发现其实还有一个处于实验性的取值，position:sticky（戳我查看MDN解释）： 卧槽，什么来的？ 前端发展太快，新东西目接不暇，但是对于有趣的
-                    <p><a href="http://www.cnblogs.com/coco1s/p/6402723.html">阅读全文</a></p>
-                </div>
-            </div>          
-            <div className={styles.postAttr}>
-                posted @ 2017-02-15 18:41 ChokCoco&nbsp;阅读(1396)     
-            </div>          
-        </div>        
+        {
+            dataSource.map((item,i)=>{
+               return (
+                    <div className={styles.article} key={i}>
+                     <div className={styles.articleTitle}>
+                      <Link to={'/info/'+item.id+'.html'} key={i}>
+                        {item.title}
+                      </Link>
+                     </div>        
+                     <div className={styles.articleDate}>
+                      <Link to={'/info/'+item.id+'.html'} key={i}>
+                       <Icon name="calendar-check-o" />
+                       <span className={styles.date}>{new Date(item.create_time * 1000).format('Y年M月d日 H:m:s')}</span>
+                      </Link>
+                    </div>
+                     <div className={styles.postCon}>
+                      <div className={styles.postDesc}>
+                       {item.desc}
+                      <p><Link to={'/info/'+item.id+'.html'} key={i}>阅读全文</Link></p>
+                     </div>
+                    </div>
+                    <div className={styles.postAttr}>
+                    posted @ {new Date(item.create_time * 1000).format('Y-M-d h:m:s')} {item.name}&nbsp;        
+                    </div>          
+                   </div>                 
+                )
+            })
+        }        
       </div>   
       {
         pageCount>0?(
@@ -120,14 +67,16 @@ function Index({ previousLabel,nextLabel,pageCount }) {
 }
 
 function mapStateToProps(state) {
-  const { previousLabel,nextLabel,pageCount } =state.Index;
+  const { previousLabel, nextLabel, pageCount, dataSource, dispatch } = state.Index;
   return {
     headerSetting:{
       pageTitle:'test'      
     },
     previousLabel,
     nextLabel,
-    pageCount
+    pageCount,
+    dataSource,
+    dispatch
   };
 }
 

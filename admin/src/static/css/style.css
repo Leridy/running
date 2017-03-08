@@ -1,4 +1,6 @@
-
+a:hover{
+	text-decoration: none;
+}
 .add-ticket .table{}
 .add-ticket .table tbody tr{cursor:pointer;}
 

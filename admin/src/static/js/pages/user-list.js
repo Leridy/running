@@ -131,7 +131,7 @@ $(function() {
 		operateFormatter: function(value, row, index) {
 			return [
 				'<a href="/pages/user-edit.html?id=' + row.id + '">编辑</a>',
-				'<a href="javascript:void(0)" data-action="delete" data-id="' + row.id + '">删除</a>',
+				'<a href="javascript:void(0)" data-action="delete" data-id="' + row.id + '">删除</a>'
 			].join('&nbsp;');
 		},
 		timeFormatter: function(value, row, index) {

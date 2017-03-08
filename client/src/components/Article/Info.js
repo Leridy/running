@@ -1,12 +1,26 @@
 import React from 'react';
-import styles from './Info.css';
+import { connect } from 'dva';
+import styles from './Info.less';
 
-function Info() {
+function Info({ dataSource }) {	
   return (
-    <div className={styles.normal}>
-      Component: Info
+    <div className={styles.post}>
+      <h1 className={styles.postTitle}>
+      	{dataSource.title}
+      </h1>
+      <div className={styles.postBody} dangerouslySetInnerHTML={{__html:dataSource.content}}>
+                     	
+      </div>            
     </div>
   );
 }
 
-export default Info;
+function mapStateToProps(state) {
+  const { dataSource, dispatch } = state.ArticleInfo;
+  return {
+  	dataSource,
+  	dispatch
+  };
+}
+
+export default connect(mapStateToProps)(Info);

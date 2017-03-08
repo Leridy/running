@@ -52,9 +52,9 @@
                 <div class="sidebar-nav navbar-collapse" id="menuList">
                     <ul class="nav" data-tab="chart" style="display: block;">
                         <li>
-                            <a href="#">
-                                <i class="fa fa-list fa-fw"></i>
-                                概况
+                            <a href="javascript:void(0)">
+                                <i class="fa fa-file-word-o fa-fw"></i>
+                                文章
                                 <span class="fa arrow"></span>
                             </a>
                             <ul class="nav nav-second-level collapse">
@@ -62,11 +62,34 @@
                                     <a target="content" href="/pages/article-list.html">文章管理</a>
                                 </li>
                                 <li class="slideInDown animated">
+                                    <a target="content" href="/pages/article-tags-list.html">文章标签管理</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="fa fa-user fa-fw"></i>
+                                用户
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">
+                                <li class="slideInDown animated">
                                     <a target="content" href="/pages/user-list.html">用户管理</a>
                                 </li>
                             </ul>
-                            <!-- /.nav-second-level --> </li>
-                        <li></li>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="fa fa-external-link fa-fw"></i>
+                                友情链接
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">                                
+                                <li class="slideInDown animated">
+                                    <a target="content" href="/pages/friend-links-list.html">友情链接管理</a>
+                                </li>
+                            </ul>
+                        </li>                        
                     </ul>
                 </div>
             </div>
@@ -75,7 +98,7 @@
     <div id="page-wrapper">
         <iframe id="page-content" name="content" src="/pages/index.html" frameborder="0"></iframe>
     </div>
-    <!-- build:js(src) static/js/common.js -->    
+    <!-- build:js(src) static/js/common.js -->
     <script type="text/javascript" src="/static/bower_components/jquery/jquery.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/static/bower_components/bootbox.js/bootbox.js"></script>
