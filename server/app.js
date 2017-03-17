@@ -6,10 +6,6 @@ var article = require('./controllers/article');
 var qiniuUtils = require('./utils/qiniuHelper');
 var fs = require('fs');
 
-var https_options = {
-	key: fs.readFileSync('./cert/web.key'),
-	certificate: fs.readFileSync('./cert/admin-server.crt')
-};
 var server = restify.createServer();
 
 //add restify plugins
