@@ -10,7 +10,7 @@ var https_options = {
 	key: fs.readFileSync('./cert/web.key'),
 	certificate: fs.readFileSync('./cert/admin-server.crt')
 };
-var server = restify.createServer(https_options);
+var server = restify.createServer();
 
 //add restify plugins
 server.use(restify.queryParser());
