@@ -4,7 +4,6 @@ var manageUser = require('./manage_controllers/user');
 var manageArticle = require('./manage_controllers/article');
 var article = require('./controllers/article');
 var qiniuUtils = require('./utils/qiniuHelper');
-var fs = require('fs');
 
 var server = restify.createServer();
 
@@ -54,8 +53,14 @@ server.post('/manage/edit_link', manageArticle.editLink);
 server.post('/manage/show_or_hide_links_detail', manageArticle.showOrHideLinksDetail);
 
 //前台接口
+//获取文章列表
 server.get('/article/get_list', article.getArticleList);
+//获取文章详情
 server.get('/article/get_detail', article.getArticle);
+//获取文章分类标签
+server.get('/article/get_article_tag_list', article.getArticleTagList);
+//获取友情链接列表
+server.get('/article/get_friendship_link_list', article.getFriendshipLinkList);
 
 //通用工具类
 server.get('/utils/get_upload_token', qiniuUtils.getUploadToken);

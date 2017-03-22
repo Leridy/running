@@ -49,6 +49,18 @@ gulp.task('fonts', function() {
 		.pipe(gulp.dest('./release/static/fonts'));
 });
 
+gulp.task('scripts', ['amd'], () => {
+	return gulp.src([
+			'./src/static/js/**/*.js'
+		])
+		.pipe(uglify())
+		.pipe(rev())
+		.pipe(gulp.dest('./release/static/js'))
+		.pipe(rev.manifest())
+		.pipe(replace(/\.js/g, ''))
+		.pipe(gulp.dest('./src/static/js'));
+});
+
 gulp.task('images', function() {
 	return gulp.src([
 			'./src/static/images/**/*'

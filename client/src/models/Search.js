@@ -28,9 +28,11 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {      	
-        if (pathname === '/') {                    
-          dispatch({ type: 'fetch', payload: { pageIndex:1 } });
+      return history.listen(({ pathname }) => {        
+        const regExpInfo=new RegExp('/list/s-(\\s+?).html');        
+        if (regExpInfo.test(pathname)) { 
+          const id = pathname.replace(regExpInfo, "$1");
+          dispatch({ type: 'fetch', payload: { id:id } });
         }
       });
     },    

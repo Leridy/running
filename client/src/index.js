@@ -20,6 +20,7 @@ app.use(createLoading());
 app.model(require('./models/header'));
 app.model(require("./models/Index"));
 app.model(require("./models/ArticleInfo"));
+app.model(require("./models/SlideBar"));
 
 // 4. Router
 app.router(require('./router'));

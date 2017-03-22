@@ -4,9 +4,20 @@
     "development": {
       "extraBabelPlugins": [
         "dva-hmr",
-        "transform-runtime",
-        ["import", { "libraryName": "antd", "style": "css" }]
-      ]
+        "transform-runtime", ["import", {
+          "libraryName": "antd",
+          "style": "css"
+        }]
+      ],
+      "proxy": {
+        "/api": {
+          "target": "http://jsonplaceholder.typicode.com/",
+          "changeOrigin": true,
+          "pathRewrite": {
+            "^/api": ""
+          }
+        }
+      }
     },
     "production": {
       "extraBabelPlugins": [

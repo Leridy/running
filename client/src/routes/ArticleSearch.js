@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
 import MainLayout from '../components/MainLayout/MainLayout';
-import ArticleInfoComponents from '../components/Article/Info';
+import SearchComponents from '../components/Article/Search';
 
-function ArticleInfoPage(props) {
+function ArticleSearch(props) {
   return (
      <MainLayout headerSetting={props.headerSetting} showRightSlide={true}>
-       <ArticleInfoComponents></ArticleInfoComponents>
+       <SearchComponents></SearchComponents>
      </MainLayout>
   );
 }
@@ -14,10 +14,8 @@ function ArticleInfoPage(props) {
 function mapStateToProps(state) {
   return {
     headerSetting:{
-      pageTitle:'ArticleInfo',
-      showRightSlide:false
+      pageTitle:'文章分类搜索'      
     }
   };
 }
-
-export default connect(mapStateToProps)(ArticleInfoPage);
+export default connect(mapStateToProps)(ArticleSearch);

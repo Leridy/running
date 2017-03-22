@@ -4,25 +4,31 @@ import { Link } from 'dva/router';
 import styles from './SideBar.less';
 import { Menu, Icon } from 'antd';
 
-function SideBar() {
+function SideBar({ articleTags,friendLinks }) {  
   return (
     <div className={styles.SideBar}>
      <div className={styles.item}>
        <p><Icon type="tags" /><span>随笔分类</span></p>
        <ul className={styles.tagList}>
-        <li><a href="#">这里是随笔分类第一条这里是随笔分类第一条</a></li>
-        <li><a href="#">这里是随笔分类第二条</a></li>
-        <li><a href="#">这里是随笔分类第三条</a></li>
-        <li><a href="#">这里是随笔分类第四条</a></li>
+        {
+            articleTags.map((item,i)=>{
+               return (
+                  <li key={i}><Link to={'/list/s-'+item.tag_name+'.html'} key={i}>{item.tag_name}</Link></li>                 
+                )
+            })
+        }        
        </ul>
      </div>    
      <div className={styles.item}>
        <p><Icon type="link" /><span>友情链接</span></p>
        <ul className={styles.tagList}>
-        <li><a href="#">这里是随笔分类第一条这里是随笔分类第一条</a></li>
-        <li><a href="#">这里是随笔分类第二条</a></li>
-        <li><a href="#">这里是随笔分类第三条</a></li>
-        <li><a href="#">这里是随笔分类第四条</a></li>
+        {
+            friendLinks.map((item,i)=>{
+               return (
+                  <li key={i}><a href={item.link_url} target="_blank">{item.name}</a></li>                 
+                )
+            })            
+        }        
        </ul>
      </div>        
     </div>    
@@ -30,8 +36,18 @@ function SideBar() {
 }
 
 function mapStateToProps(state) {
-  return {  	  	    
-    
+  const {
+    articleTags,
+    friendLinks,    
+    dispatch
+  } = state.SlideBar;
+  return {
+    headerSetting: {
+      pageTitle: 'test'
+    },
+    articleTags,
+    friendLinks,    
+    dispatch
   };
 }
 

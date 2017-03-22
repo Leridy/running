@@ -4,7 +4,7 @@ import styles from './Tool.less';
 function Tool() {
   return (
     <div className={styles.normal}>
-      Component: Tool
+      正在开发中，敬请期待...
     </div>
   );
 }
