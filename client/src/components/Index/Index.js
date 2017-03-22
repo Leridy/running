@@ -68,10 +68,7 @@ function Index({ previousLabel, nextLabel, pageCount, dataSource, dispatch }) {
 
 function mapStateToProps(state) {
   const { previousLabel, nextLabel, pageCount, dataSource, dispatch } = state.Index;
-  return {
-    headerSetting:{
-      pageTitle:'test'      
-    },
+  return {   
     previousLabel,
     nextLabel,
     pageCount,

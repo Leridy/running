@@ -14,7 +14,7 @@ function IndexPage(props) {
 function mapStateToProps(state) {
   return {
     headerSetting:{
-      pageTitle:'test'      
+      pageTitle:'首页'
     }
   };
 }

@@ -4,24 +4,14 @@
     "development": {
       "extraBabelPlugins": [
         "dva-hmr",
-        "transform-runtime", ["import", {
-          "libraryName": "antd",
-          "style": "css"
-        }]
-      ],
-      "proxy": {
-        "/api": {
-          "target": "http://jsonplaceholder.typicode.com/",
-          "changeOrigin": true,
-          "pathRewrite": {
-            "^/api": ""
-          }
-        }
-      }
+        "transform-runtime",
+        ["import", { "libraryName": "antd", "style": "css" }]
+      ]
     },
     "production": {
       "extraBabelPlugins": [
-        "transform-runtime"
+        "transform-runtime",
+        ["import", { "libraryName": "antd", "style": "css" }]
       ]
     }
   }
