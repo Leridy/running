@@ -22,7 +22,7 @@ export default {
   },
   effects: {
   	*fetch({ payload: { pageIndex }}, { call, put, select }) {        
-      const { data } = yield call(articleService.fetch, { pageIndex });
+      const { data } = yield call(articleService.search, { pageIndex });
       yield put({ type: 'save', payload: { data:data, pageIndex:pageIndex }});
     }
   },

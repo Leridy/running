@@ -15,7 +15,7 @@ export default {
   },
   effects: {
   	*fetch({ payload: { id }}, { call, put, select }) {
-      const { data, headers } = yield call(articleService.fetchDetail, { id });
+      const { data } = yield call(articleService.fetchDetail, { id });
       yield put({ type: 'save', payload: { data:data }});
     }
   },
