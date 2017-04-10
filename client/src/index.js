@@ -1,5 +1,6 @@
 import dva from 'dva';
 import './index.less';
+import '../node_modules/animate.css/animate.css';
 import {
 	browserHistory
 } from 'dva/router';

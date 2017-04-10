@@ -1,4 +1,4 @@
-import * as articleService from '../services/article';
+import * as articleService from '../services/Article';
 
 export default {
   namespace: 'Index',

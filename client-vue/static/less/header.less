@@ -1,0 +1,43 @@
+.nav-header {
+  height: 100px;
+
+  .header-content {
+    width: 1200px;
+    margin: 0 auto;
+    height: 100px;
+
+    .header-logo {
+      color: #f35626;
+      background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;      
+      font-size:30px;
+      line-height: 30px;
+      margin-top: 35px;
+    }
+    .menus {
+      margin-top: 26px;
+
+      li {
+        float: left;
+        margin-left: 1rem;
+
+        &:first-child {
+          margin-left: 0;
+        }
+        a {
+          border-radius: 6px;
+          color: black;
+          padding: 10px 40px;
+          display: block;
+          font-size: 1.2rem;
+
+          &.active, &:hover {
+            color: white;
+            background-color: #cc9900;
+          }
+        }
+      }
+    }
+  }
+}

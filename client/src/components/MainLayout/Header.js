@@ -3,11 +3,12 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import styles from './Header.less';
 import { Menu, Icon } from 'antd';
+
 const SubMenu=Menu.SubMenu;
 
 function Header({ dispatch, setting, menuKey }) {
   document.title = setting.pageTitle || '';
-
+    
   function handleMenuClick(e) {
     dispatch({
       type: 'header/handleMenuClick',
@@ -23,6 +24,9 @@ function Header({ dispatch, setting, menuKey }) {
         selectedKeys={[menuKey]}
         mode="horizontal"
       >
+        <Menu.Item key="logo" className="header-logo">
+          
+        </Menu.Item> 
         <Menu.Item key="tool">
           <Link to="/tool/"><Icon type="appstore-o" />工具</Link>
         </Menu.Item>      
