@@ -1,15 +1,15 @@
 <template>
   <div class="nav-header">
     <div class="header-content">
-      <div class="fl header-logo animated rubberBand">
-        RunningDreaming
-      </div>
+      <a class="fl header-logo animated" v-bind:class="{ rubberBand: isActive }" v-on:mouseover="sloganOver" v-on:mouseout="sloganOut" href="/">
+        <img src="/static/img/bicycle2.gif" class="bicycle_gif">        
+      </a>
       <ul class="fr menus">
         <li>
-          <a href="javascript:void(0)" class="active">aaaa</a>
+          <a href="javascript:void(0)" class="active">首页</a>
         </li>
         <li>
-          <a href="javascript:void(0)">bbbbb</a>
+          <a href="javascript:void(0)">分类</a>
         </li>
       </ul>
     </div>
@@ -18,16 +18,23 @@
 
 <script>
 export default {
-  name: 'header',
+  name: 'header',  
   data () {
     return {
+      isActive:false,
       msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  methods:{
+    sloganOver(){      
+      this.isActive=true;
+    },
+    sloganOut(){
+      this.isActive=false;
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
-@import '../../static/less/header.less';
-</style>
+<style scoped lang="less">@import '../../static/less/header.less';</style>

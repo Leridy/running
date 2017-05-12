@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
-    <nav-header></nav-header>
-    <router-view></router-view>
-  </div>
+	<div id="app">
+		<nav-header></nav-header>
+		<router-view></router-view>
+	</div>
 </template>
 
 <script>
