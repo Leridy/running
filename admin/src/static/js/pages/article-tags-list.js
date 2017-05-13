@@ -26,6 +26,7 @@ $(function() {
 			});
 		},
 		bindEvent: function() {
+			this.handleAction = this.handleAction.bind(this);
 			nodes.table.on('click', '[data-action]', this.handleAction);
 		},
 		handleAction: function(event) {
