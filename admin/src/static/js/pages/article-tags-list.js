@@ -98,7 +98,7 @@ $(function() {
 			].join('&nbsp;');
 		},
 		deleteFormatter: function(value, row, index) {
-			return ['显示', '隐藏'][row.is_delete.data[0]];
+			return ['显示', '隐藏'][row.is_delete[0]];
 		},
 	};
 
