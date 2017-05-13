@@ -268,7 +268,7 @@ exports.deleteArticleTagInfo = function(req, res, next) {
 		if (flag) {
 			var id = req.params.id;
 
-			var query_str = 'delete articleTag where id="' + id + '"';
+			var query_str = 'delete from articleTag where id="' + id + '"';
 			dao.query(query_str).done(function(data) {
 				res.json(data);
 			})
