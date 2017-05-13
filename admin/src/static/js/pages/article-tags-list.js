@@ -26,7 +26,6 @@ $(function() {
 			});
 		},
 		bindEvent: function() {
-			this.handleAction = this.handleAction.bind(this);
 			nodes.table.on('click', '[data-action]', this.handleAction);
 		},
 		handleAction: function(event) {
@@ -36,10 +35,10 @@ $(function() {
 
 			switch (action) {
 				case 'operate':
-					this.handleOperate(self, action);
+					page.handleOperate(self, action);
 					break;
 				case 'delete':
-					this.deleteTags(self);
+					page.deleteTags(self);
 					break;
 			}
 		},
