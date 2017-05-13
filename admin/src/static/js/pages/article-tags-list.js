@@ -42,7 +42,7 @@ $(function() {
 					break;
 			}
 		},
-		deleteTags: function(slef) {
+		deleteTags: function(self) {			
 			var id = self.attr('data-id');
 			return System.request({
 					type: 'post',
