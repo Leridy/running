@@ -14,7 +14,7 @@ exports.getArticleList = function(req, res, next) {
 		if (flag) {
 			var start = req.params.begin,
 				pagesize = req.params.limit;
-			var query_str = 'SELECT sql_calc_found_rows a.id,a.title,a.userid,a.content,a.desc,UNIX_TIMESTAMP(a.create_time) as create_time,b.name from article a left join user b on a.userid=b.id limit ' + start + ',' + pagesize;			
+			var query_str = 'SELECT sql_calc_found_rows a.id,a.title,a.userid,a.content,a.desc,UNIX_TIMESTAMP(a.create_time) as create_time,b.name from article a left join user b on a.userid=b.id limit ' + start + ',' + pagesize;
 			dao.query(query_str).done(function(data) {
 				if (data.res == 0) {
 					dao.query('select found_rows() as total').done(function(result) {
@@ -257,6 +257,28 @@ exports.showOrHideArticleTagInfo = function(req, res, next) {
 	});
 };
 
+//删除文章标签
+exports.deleteArticleTagInfo = function(req, res, next) {
+	auth.verifyReq(req).done(function(flag) {
+		var result = {
+			res: -1,
+			msg: 'uid or token error',
+			data: null
+		};
+		if (flag) {
+			var id = req.params.id;
+
+			var query_str = 'delete articleTag where id="' + id + '"';
+			dao.query(query_str).done(function(data) {
+				res.json(data);
+			})
+			next();
+		} else {
+			res.json(result);
+		}
+	});
+};
+
 //添加或者编辑友情链接
 exports.editLink = function(req, res, next) {
 	auth.verifyReq(req).done(function(flag) {
@@ -286,7 +308,7 @@ exports.editLink = function(req, res, next) {
 					var query_str = 'insert into links(name,link_url,is_delete) values("' + name + '","' + linkUrl + '",' + isDelete + ')';
 					if (id > 0) {
 						query_str = 'update links set name="' + name + '",link_url="' + linkUrl + '",is_delete=' + isDelete + ' where id="' + id + '"';
-					}					
+					}
 					dao.query(query_str).done(function(data) {
 						res.json(data);
 					})

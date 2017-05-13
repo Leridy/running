@@ -43,6 +43,8 @@ server.get('/manage/get_article_tag_detail', manageArticle.getArticleTagDetail);
 server.post('/manage/edit_article_tag', manageArticle.editArticleTag);
 //显示或者隐藏文章分类
 server.post('/manage/show_or_hide_article_tag_info', manageArticle.showOrHideArticleTagInfo);
+//删除文章分类
+server.post('/manage/delete_article_tag_info', manageArticle.deleteArticleTagInfo);
 //获取友情链接列表
 server.get('/manage/get_links_list', manageArticle.getLinksList);
 //获取友情链接详情

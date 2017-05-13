@@ -18,7 +18,7 @@ $(function() {
 				this.getData(data.id).done(function(response) {
 					if (response.res == 0) {
 						data.formData = $.extend(data.formData, response.data[0]);
-						data.formData.is_delete = data.formData.is_delete.data[0];
+						data.formData.is_delete = data.formData.is_delete[0];
 						nodes.form.html(System.template('appTpl', {
 							info: data.formData
 						}));
