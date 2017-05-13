@@ -65,7 +65,7 @@ $(function() {
 						});
 					}
 				});
-		}
+		},
 		handleOperate: function(self, type) {
 			var id = self.attr('data-id'),
 				isDelete = self.attr('data-delete') == 1 ? 0 : 1;
