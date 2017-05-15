@@ -41,7 +41,7 @@ exports.login = function(req, res, next) {
 					} else {
 						sessionInfo.push(currentUInfo);
 					}
-					var uInfo = JSON.stringify(sessionInfo);					
+					var uInfo = JSON.stringify(sessionInfo);
 					redisClient.set('sessionInfo', uInfo);
 					var resData = {
 						res: 0,
@@ -177,7 +177,7 @@ exports.editUser = function(req, res, next) {
 	var id = req.params.id || 0,
 		name = req.params.name,
 		photo = req.params.photo,
-		pwd = req.params.pwd,
+		pwd = req.params.pwd || false,
 		login_name = req.params.login_name,
 		is_admin = Boolean(parseInt(req.params.is_admin || 0)),
 		result = {
@@ -193,7 +193,7 @@ exports.editUser = function(req, res, next) {
 			result.msg = '头像不能为空';
 			res.json(result);
 		} else {
-			if (stringHelper.trimAll(pwd).length == 0) {
+			if (!pwd && stringHelper.trimAll(pwd).length == 0) {
 				result.msg = '密码不能为空';
 				res.json(result);
 			} else {
@@ -207,8 +207,12 @@ exports.editUser = function(req, res, next) {
 							if (data.data.length == 0) {
 								query_str = 'insert into user(name,photo,pwd,login_name,is_admin) values("' + name + '","' + photo + '","' + pwd + '","' + login_name + '","' + is_admin + '")';
 								if (id > 0) {
-									query_str = 'update user set name="' + name + '",photo="' + photo + '",login_name="' + login_name + '",is_admin=' + is_admin + ' where id=' + id;
-								}
+									if (pwd) {
+										query_str = 'update user set name="' + name + '",photo="' + photo + '",login_name="' + login_name + '",is_admin=' + is_admin + ',pwd="' + pwd + '" where id=' + id;
+									} else {
+										query_str = 'update user set name="' + name + '",photo="' + photo + '",login_name="' + login_name + '",is_admin=' + is_admin + ' where id=' + id;
+									}
+								}								
 								dao.query(query_str).done(function(data2) {
 									res.json(data2);
 								})

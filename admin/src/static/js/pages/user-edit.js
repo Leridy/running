@@ -65,43 +65,41 @@ $(function() {
 				$dataWidth: $("#dataWidth")
 			});
 		},
-		initImgCropper: function() {
-			setTimeout(function() {
-				nodes.CropperImg.cropper({
-					aspectRatio: 1 / 1,
-					// autoCropArea: 1,
-					data: {
-						x: 420,
-						y: 50,
-						width: 640,
-						height: 360,
-					},
-					preview: ".preview",
-					done: function(data) {
-						nodes.$dataX.val(data.x);
-						nodes.$dataY.val(data.y);
-						nodes.$dataHeight.val(data.height);
-						nodes.$dataWidth.val(data.width);
-					},
+		handleCropperImgLoad: function() {
+			nodes.CropperImg.cropper({
+				aspectRatio: 1 / 1,
+				// autoCropArea: 1,
+				data: {
+					x: 420,
+					y: 50,
+					width: 640,
+					height: 360,
+				},
+				preview: ".preview",
+				done: function(data) {
+					nodes.$dataX.val(data.x);
+					nodes.$dataY.val(data.y);
+					nodes.$dataHeight.val(data.height);
+					nodes.$dataWidth.val(data.width);
+				},
 
-					build: function(e) {
-						//console.log(e.type);
-					},
+				build: function(e) {
+					//console.log(e.type);
+				},
 
-					built: function(e) {
-						//console.log(e.type);
-					},
-					dragstart: function(e) {
-						//console.log(e.type);
-					},
-					dragmove: function(e) {
-						//console.log(e.type);
-					},
-					dragend: function(e) {
-						//console.log(e.type);
-					}
-				});
-			}, 2000);
+				built: function(e) {
+					//console.log(e.type);
+				},
+				dragstart: function(e) {
+					//console.log(e.type);
+				},
+				dragmove: function(e) {
+					//console.log(e.type);
+				},
+				dragend: function(e) {
+					//console.log(e.type);
+				}
+			});
 		},
 		initData: function() {
 			var auth = $.parseJSON(System.localStorage.get('auth'));
@@ -111,6 +109,7 @@ $(function() {
 			nodes.showPickfileBtn.on('click', this.handleShowPickFile);
 			nodes.modalReplySure.on('click', this.handleReplySure);
 			nodes.submit.on('click', this.handleSubmitForm);
+			nodes.CropperImg.on('load', this.handleCropperImgLoad);
 		},
 		getUserData: function(id) {
 			return System.request({
@@ -154,7 +153,7 @@ $(function() {
 				});
 				return;
 			}
-			if (formData.id == 0) {
+			if (formData.id == 0 || formData.pwd1 || formData.pwd) {
 				if (!formData.pwd1) {
 					$.toast({
 						icon: 'error',
@@ -185,6 +184,12 @@ $(function() {
 					text: '请输入登录名'
 				});
 				return;
+			}
+			if (!formData.pwd1) {
+				delete formData.pwd1;
+			}
+			if (!formData.pwd) {
+				delete formData.pwd;
 			}
 			nodes.submit.prop('disabled', true);
 			return System.request({
@@ -236,10 +241,6 @@ $(function() {
 		handleShowPickFile: function(event) {
 			event.preventDefault();
 			nodes.modalImgCropper.modal('show');
-			if (nodes.CropperImg.attr('src')) {
-				nodes.CropperImg.cropper('destroy');
-				page.initImgCropper();
-			}
 		},
 		formUpload: function() {
 			var width = 690;
@@ -306,7 +307,6 @@ $(function() {
 							nodes.CropperImg.cropper('destroy');
 						}
 						nodes.CropperImg.attr('src', result.url);
-						page.initImgCropper();
 						data.formData.photo = result.url;
 						btn.innerHTML = btnText;
 						btn.disabled = false;

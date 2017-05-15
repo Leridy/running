@@ -14,7 +14,7 @@ exports.getArticleList = function(req, res, next) {
 		if (flag) {
 			var start = req.params.begin,
 				pagesize = req.params.limit;
-			var query_str = 'SELECT sql_calc_found_rows a.id,a.title,a.userid,a.content,a.desc,UNIX_TIMESTAMP(a.create_time) as create_time,b.name from article a left join user b on a.userid=b.id limit ' + start + ',' + pagesize;
+			var query_str = 'SELECT sql_calc_found_rows a.id,a.title,a.userid,a.content,a.desc,a.tags,UNIX_TIMESTAMP(a.create_time) as create_time,b.name from article a left join user b on a.userid=b.id limit ' + start + ',' + pagesize;
 			dao.query(query_str).done(function(data) {
 				if (data.res == 0) {
 					dao.query('select found_rows() as total').done(function(result) {
@@ -72,46 +72,52 @@ exports.editArticle = function(req, res, next) {
 				desc = req.params.desc,
 				cover = req.params.cover,
 				userid = req.params.uid,
+				tags = req.params.tags,
 				result = {
 					res: -1,
 					data: null,
 					msg: ''
 				};
-			if (stringHelper.trimAll(title).length == 0) {
-				result.msg = '标题不能为空';
+			if (stringHelper.trimAll(tags).length == 0) {
+				result.msg = '请选择标签';
 				res.json(result);
 			} else {
-				if (stringHelper.trimAll(content).length == 0) {
-					result.msg = '内容不能为空';
+				if (stringHelper.trimAll(title).length == 0) {
+					result.msg = '标题不能为空';
 					res.json(result);
 				} else {
-					if (stringHelper.trimAll(cover).length == 0) {
-						result.msg = '摘要不能为空';
+					if (stringHelper.trimAll(content).length == 0) {
+						result.msg = '内容不能为空';
 						res.json(result);
 					} else {
 						if (stringHelper.trimAll(cover).length == 0) {
-							result.msg = '封面图不能为空';
+							result.msg = '摘要不能为空';
 							res.json(result);
 						} else {
-							var query_str = 'select id from user where id="' + userid + '" limit 0,1';
-							dao.query(query_str).done(function(data) {
-								if (data.res == 0) {
-									if (data.data.length > 0) {
-										query_str = 'insert into article(title,content,cover,userid,`desc`) values("' + title + '","' + content + '","' + cover + '","' + userid + '","' + desc + '")';
-										if (id > 0) {
-											query_str = 'update article set title="' + title + '",content="' + content + '",cover="' + cover + '",userid=' + userid + ',`desc`="' + desc + '" where id=' + id;
+							if (stringHelper.trimAll(cover).length == 0) {
+								result.msg = '封面图不能为空';
+								res.json(result);
+							} else {
+								var query_str = 'select id from user where id="' + userid + '" limit 0,1';
+								dao.query(query_str).done(function(data) {
+									if (data.res == 0) {
+										if (data.data.length > 0) {
+											query_str = 'insert into article(title,content,cover,userid,`desc`,tags) values("' + title + '","' + content + '","' + cover + '","' + userid + '","' + desc + '","' + tags + '")';
+											if (id > 0) {
+												query_str = 'update article set title="' + title + '",content="' + content + '",cover="' + cover + '",userid=' + userid + ',`desc`="' + desc + '",tags="' + tags + '" where id=' + id;
+											}
+											dao.query(query_str).done(function(data2) {
+												res.json(data2);
+											})
+										} else {
+											result.msg = '操作失败，该用户不存在';
+											res.json(result);
 										}
-										dao.query(query_str).done(function(data2) {
-											res.json(data2);
-										})
 									} else {
-										result.msg = '操作失败，该用户不存在';
-										res.json(result);
+										res.json(data);
 									}
-								} else {
-									res.json(data);
-								}
-							})
+								})
+							}
 						}
 					}
 				}
@@ -133,7 +139,7 @@ exports.getArticle = function(req, res, next) {
 		};
 		if (flag) {
 			var id = req.params.id
-			var query_str = 'SELECT id,title,content,cover,`desc` from article where id="' + id + '"';
+			var query_str = 'SELECT id,title,content,cover,`desc`,tags from article where id="' + id + '"';
 			dao.query(query_str).done(function(data) {
 				res.json(data);
 			})

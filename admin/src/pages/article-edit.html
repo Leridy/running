@@ -1,35 +1,51 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>新增文章</title>
-
     <link rel="stylesheet" type="text/css" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/animate.css/animate.min.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/jquery-toast-plugin/dist/jquery.toast.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/admin.css">
-
     <link rel="stylesheet" type="text/css" href="/static/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/cropper/css/cropper.css">
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-
     <style>
-        .bootstrap-tagsinput{width:100%;}
-        .overflow{overflow:hidden;}
-        .bd{display:inline-block;vertical-align: middle;}
-        #modal-img-cropper .modal-dialog{width:80%;}
-        .preview{
-            height: 200px;
-            width: 200px;
-        }           
+    .bootstrap-tagsinput {
+        width: 100%;
+    }
+    
+    .overflow {
+        overflow: hidden;
+    }
+    
+    .bd {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    
+    #modal-img-cropper .modal-dialog {
+        width: 80%;
+    }
+    
+    .preview {
+        height: 200px;
+        width: 200px;
+    }
+    
+    .btn-tag {
+        margin-bottom: 5px;
+        margin-right: 5px;
+    }
     </style>
 </head>
+
 <body>
     <div class="modal fade" id="modal-img-cropper">
         <div class="modal-dialog">
@@ -40,17 +56,16 @@
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid eg-container" id="basic-example">
-                       <div class="form-group">
-                            <button class="btn btn-default" data-action="pickfile" data-type="1" id="upload-photo" href="javascript:void(0)" > <i class="glyphicon glyphicon-plus"></i>
+                        <div class="form-group">
+                            <button class="btn btn-default" data-action="pickfile" data-type="1" id="upload-photo" href="javascript:void(0)"> <i class="glyphicon glyphicon-plus"></i>
                                 <span>选择文件</span>
-                            </button>                        
-                       </div>
+                            </button>
+                        </div>
                         <div class="row eg-main">
                             <div class="col-xs-12 col-sm-9">
                                 <div class="eg-wrapper">
                                     <img class="cropper" id="cropper-img"></div>
                             </div>
-
                             <div class="col-xs-12 col-sm-3">
                                 <div class="eg-preview clearfix">
                                     <div class="preview"></div>
@@ -61,7 +76,6 @@
                                         <input class="form-control" id="dataX" type="text" placeholder="x">
                                         <span class="input-group-addon">px</span>
                                     </div>
-
                                     <div class="input-group">
                                         <span class="input-group-addon">Y</span>
                                         <input class="form-control" id="dataY" type="text" placeholder="y">
@@ -78,14 +92,14 @@
                                         <span class="input-group-addon">px</span>
                                     </div>
                                     <div class="input-group text-center">
-                                       <button type="button" class="btn btn-primary" id="modal-set-size">设置</button>
+                                        <button type="button" class="btn btn-primary" id="modal-set-size">设置</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">                    
+                <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                     <button type="button" class="btn btn-primary" id="modal-reply-sure">确认</button>
                 </div>
@@ -97,8 +111,8 @@
             <div class="col-lg-12">
                 <h2 class="page-header" id="title">新增文章</h2>
             </div>
-            <!-- /.col-lg-12 --> </div>
-
+            <!-- /.col-lg-12 -->
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <form class="form-horizontal" id="form" role="form">
@@ -113,19 +127,26 @@
             </div>
         </div>
     </div>
-
     <script type="text/template" id="appTpl">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">标签：</label>
+            <div class="col-sm-10">
+              <%each tagList i a%>                                
+                 <a href="javascript:void(0)" data-action="tag" class="btn btn-default btn-tag <%=info.tags.contains(a.tag_name)?'btn-info':''%>"><%=a.tag_name%></a>                
+              <%/each%>
+            </div>
+        </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">标题：</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="title" id="title" placeholder="请填写标题" value="<%=info.title%>" />
             </div>
-        </div>    
+        </div>
         <div class="form-group">
             <label for="input" class="col-sm-2 control-label">封面图：</label>
             <div class="col-sm-2">
                 <div id="container">
-                    <button class="btn btn-default" data-action="showpickfile" href="javascript:void(0)" > <i class="glyphicon glyphicon-plus"></i>
+                    <button class="btn btn-default" data-action="showpickfile" href="javascript:void(0)"> <i class="glyphicon glyphicon-plus"></i>
                         <span>选择文件</span>
                     </button>
                 </div>
@@ -137,50 +158,47 @@
                 <img src="<%=info.cover%>        
                 " onerror="this.onerror=null;this.src=\'/static/images/perform-default-cover.png\'" class="img-responsive" id="prview-img" alt="Image">
             </div>
-        </div>    
+        </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">摘要：</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="desc" id="desc" placeholder="请填写摘要" value="<%=info.desc%>" />
             </div>
-        </div>             
+        </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">内容：</label>
             <div class="col-sm-10">
-                <textarea id="content" name="content" placeholder="请输入新闻内容" style="height:400px;resize:vertical;"><%=info.content%></textarea>
+                <textarea id="content" name="content" placeholder="请输入新闻内容" style="height:400px;resize:vertical;">
+                    <%=info.content%>
+                </textarea>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-5 mt20 text-right">            
-            <button type="reset" class="btn btn-default">取消</button>            
-            <button type="submit" class="btn btn-info ml20" id="submit">确认</button>
-        </div>
+            <div class="col-sm-offset-2 col-sm-5 mt20 text-right">
+                <button type="reset" class="btn btn-default">取消</button>
+                <button type="submit" class="btn btn-info ml20" id="submit">确认</button>
+            </div>
         </div>
         <div style="height:30px;"></div>
     </script>
-
     <script type="text/javascript" src="/static/js/page.js"></script>
     <script type="text/javascript" src="/static/bower_components/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/bower_components/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
     <script type="text/javascript" src="/static/js/system.js"></script>
-
     <script type="text/javascript" src="/static/bower_components/fex-webuploader/dist/webuploader.min.js"></script>
     <script type="text/javascript" src="/static/bower_components/moment/min/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="/static/bower_components/moment/locale/zh-cn.js"></script>
     <script type="text/javascript" src="/static/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-
     <script type="text/javascript" src="/static/bower_components/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" src="/static/bower_components/ueditor/ueditor.all.js"></script>
-
     <script type="text/javascript" src="/static/bower_components/plupload/js/plupload.full.min.js"></script>
     <script type="text/javascript" src="/static/bower_components/plupload/js/i18n/zh_CN.js"></script>
     <script type="text/javascript" src="/static/bower_components/qiniu/dist/qiniu.min.js"></script>
-
     <script type="text/javascript" src="/static/bower_components/zoom.js/js/zoom.js"></script>
     <script type="text/javascript" src="/static/bower_components/cropper/js/cropper.js"></script>
-
     <script type="text/javascript" src="/static/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
     <script type="text/javascript" src="/static/js/pages/article-edit.js"></script>
 </body>
+
 </html>

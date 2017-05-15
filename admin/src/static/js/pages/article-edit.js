@@ -19,30 +19,35 @@ $(function() {
 			}]
 		},
 		formData: {
-			cover: ''
+			cover: '',
+			tags: []
 		},
 	};
-
 	var page = {
 		init: function() {
-			if (data.id) {
-				$('#title').html('修改文章');
-				this.getData(data.id).done(function(response) {
-					if (response.res == 0) {
-						data.formData = $.extend(data.formData, response.data[0]);
-						nodes.form.html(System.template('appTpl', {
-							info: data.formData
-						}));
-						page.bindEvents();
-					}
-				});
-			} else {
-				nodes.form.html(System.template('appTpl', {
-					info: {}
-				}));
-				this.bindEvents();
-				$('#title').html('新增文章');
-			}
+			$.when(this.loadConfig()).done(function() {
+				if (data.id) {
+					$('#title').html('修改文章');
+					this.getData(data.id).done(function(response) {
+						if (response.res == 0) {
+							data.formData = $.extend(data.formData, response.data[0]);
+							data.formData.tags = data.formData.tags.split('|');
+							nodes.form.html(System.template('appTpl', {
+								info: data.formData,
+								tagList: data.tagList
+							}));
+							page.bindEvents();
+						}
+					});
+				} else {
+					nodes.form.html(System.template('appTpl', {
+						info: {},
+						tagList: data.tagList
+					}));
+					this.bindEvents();
+					$('#title').html('新增文章');
+				}
+			}.bind(this))
 		},
 		initNodes: function() {
 			$.extend(nodes, {
@@ -67,48 +72,73 @@ $(function() {
 			window.ue = UE.getEditor('content');
 			nodes.showPickfileBtn.on('click', this.handleShowPickFile);
 			nodes.modalReplySure.on('click', this.handleReplySure);
+			nodes.CropperImg.on('load', this.handleCropperImgLoad);
+			nodes.form.on('click', '[data-action="tag"]', this.handleTagClick);
 		},
-		initImgCropper: function() {
-			setTimeout(function() {
-				nodes.CropperImg.cropper({
-					aspectRatio: 1 / 1,
-					// autoCropArea: 1,
-					data: {
-						x: 420,
-						y: 50,
-						width: 640,
-						height: 360,
-					},
-					preview: ".preview",
-					done: function(data) {
-						nodes.$dataX.val(data.x);
-						nodes.$dataY.val(data.y);
-						nodes.$dataHeight.val(data.height);
-						nodes.$dataWidth.val(data.width);
-					},
+		handleTagClick: function() {
+			var self = $(this),
+				tagName = self.text(),
+				tags = data.formData.tags;
+			if (self.hasClass('btn-info')) {
+				self.removeClass('btn-info');
+				if (tags.contains(tagName)) {
+					tags.remove(tagName);
+				}
+			} else {
+				self.addClass('btn-info');
+				if (!tags.contains(tagName)) {
+					tags.push(tagName);
+				}
+			}
+			data.formData.tags = tags;
+		},
+		handleCropperImgLoad: function() {
+			nodes.CropperImg.cropper({
+				aspectRatio: 1 / 1,
+				// autoCropArea: 1,
+				data: {
+					x: 420,
+					y: 50,
+					width: 640,
+					height: 360,
+				},
+				preview: ".preview",
+				done: function(data) {
+					nodes.$dataX.val(data.x);
+					nodes.$dataY.val(data.y);
+					nodes.$dataHeight.val(data.height);
+					nodes.$dataWidth.val(data.width);
+				},
 
-					build: function(e) {
-						//console.log(e.type);
-					},
+				build: function(e) {
+					//console.log(e.type);
+				},
 
-					built: function(e) {
-						//console.log(e.type);
-					},
-					dragstart: function(e) {
-						//console.log(e.type);
-					},
-					dragmove: function(e) {
-						//console.log(e.type);
-					},
-					dragend: function(e) {
-						//console.log(e.type);
-					}
-				});
-			}, 2000);
+				built: function(e) {
+					//console.log(e.type);
+				},
+				dragstart: function(e) {
+					//console.log(e.type);
+				},
+				dragmove: function(e) {
+					//console.log(e.type);
+				},
+				dragend: function(e) {
+					//console.log(e.type);
+				}
+			});
 		},
 		handleSubmit: function(event) {
 			event.preventDefault();
 			var formData = nodes.form.serializeObject();
+			if (data.formData.tags.length == 0) {
+				$.toast({
+					icon: 'error',
+					text: '请选择标签'
+				});
+				return;
+			}
+			formData.tags = data.formData.tags.join('|');
 			if (!formData.title) {
 				$.toast({
 					icon: 'error',
@@ -218,6 +248,26 @@ $(function() {
 				});
 
 		},
+		loadConfig: function() {
+			return System.request({
+					type: 'GET',
+					url: 'manage/get_article_tag_list',
+					data: $.extend(data.filter, {
+						begin: 0,
+						limit: 100
+					})
+				})
+				.done(function(response) {
+					if (response.res == 0) {
+						data.tagList = response.data;
+					} else {
+						$.toast({
+							icon: 'error',
+							text: response.msg
+						});
+					}
+				})
+		},
 		formUpload: function() {
 			var width = 690;
 			var height = 390;
@@ -283,7 +333,6 @@ $(function() {
 							nodes.CropperImg.cropper('destroy');
 						}
 						nodes.CropperImg.attr('src', result.url);
-						page.initImgCropper();
 						data.formData.cover = result.url;
 						btn.innerHTML = btnText;
 						btn.disabled = false;
