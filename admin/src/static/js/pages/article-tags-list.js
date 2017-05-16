@@ -42,7 +42,7 @@ $(function() {
 					break;
 			}
 		},
-		deleteTags: function(self) {			
+		deleteTags: function(self) {
 			var id = self.attr('data-id');
 			return System.request({
 					type: 'post',
@@ -121,17 +121,17 @@ $(function() {
 		operateFormatter: function(value, row, index) {
 			return [
 				'<a href="/pages/article-tags-edit.html?id=' + row.id + '">编辑</a>',
-				'<a href="javascript:void(0)" data-action="operate" data-id="' + row.id + '" data-delete="' + row.is_delete[0] + '">' + (row.is_delete[0] == 1 ? '显示' : '隐藏') + '</a>',
+				'<a href="javascript:void(0)" data-action="operate" data-id="' + row.id + '" data-delete="' + row.is_delete.data[0] + '">' + (row.is_delete.data[0] == 1 ? '显示' : '隐藏') + '</a>',
 				'<a href="javascript:void(0)" data-action="delete" data-id="' + row.id + '">删除</a>'
 			].join('&nbsp;');
 		},
-		deleteFormatter: function(value, row, index) {
-			return ['显示', '隐藏'][row.is_delete[0]];
+		showFormatter: function(value, row, index) {			
+			return ['显示', '隐藏'][row.is_delete.data[0]];
 		},
 	};
 
 	page.init();
 	window.getData = page.getData;
 	window.operateFormatter = page.operateFormatter;
-	window.deleteFormatter = page.deleteFormatter;
+	window.showFormatter = page.showFormatter;
 });

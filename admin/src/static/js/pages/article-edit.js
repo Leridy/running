@@ -41,7 +41,9 @@ $(function() {
 					});
 				} else {
 					nodes.form.html(System.template('appTpl', {
-						info: {},
+						info: {
+							tags:[]
+						},
 						tagList: data.tagList
 					}));
 					this.bindEvents();
