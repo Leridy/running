@@ -32,6 +32,7 @@ $(function() {
 						if (response.res == 0) {
 							data.formData = $.extend(data.formData, response.data[0]);
 							data.formData.tags = data.formData.tags.split('|');
+							data.formData.content = decodeURIComponent(data.formData.content);
 							nodes.form.html(System.template('appTpl', {
 								info: data.formData,
 								tagList: data.tagList
@@ -42,7 +43,7 @@ $(function() {
 				} else {
 					nodes.form.html(System.template('appTpl', {
 						info: {
-							tags:[]
+							tags: []
 						},
 						tagList: data.tagList
 					}));
@@ -164,6 +165,7 @@ $(function() {
 				});
 				return;
 			}
+			formData.content = encodeURIComponent(formData.content);
 			if (!formData.desc) {
 				$.toast({
 					icon: 'error',

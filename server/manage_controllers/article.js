@@ -101,7 +101,7 @@ exports.editArticle = function(req, res, next) {
 								var query_str = 'select id from user where id="' + userid + '" limit 0,1';
 								dao.query(query_str).done(function(data) {
 									if (data.res == 0) {
-										if (data.data.length > 0) {
+										if (data.data.length > 0) {											
 											query_str = 'insert into article(title,content,cover,userid,`desc`,tags) values("' + title + '","' + content + '","' + cover + '","' + userid + '","' + desc + '","' + tags + '")';
 											if (id > 0) {
 												query_str = 'update article set title="' + title + '",content="' + content + '",cover="' + cover + '",userid=' + userid + ',`desc`="' + desc + '",tags="' + tags + '" where id=' + id;
