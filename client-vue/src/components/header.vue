@@ -2,13 +2,13 @@
   <div class="nav-header">
     <div class="header-content">
       <a class="fl header-logo animated" v-bind:class="{ rubberBand: isActive }" v-on:mouseover="sloganOver" v-on:mouseout="sloganOut" href="/">
-        <img src="/static/img/bicycle2.gif" class="bicycle_gif">        
+        <img src="/static/img/bicycle.gif" class="bicycle_gif">        
       </a>
       <ul class="fr menus">
-        <li>
+        <li class="menu-item">
           <a href="javascript:void(0)" class="active">首页</a>
         </li>
-        <li>
+        <li class="menu-item">
           <a href="javascript:void(0)">分类</a>
         </li>
       </ul>
