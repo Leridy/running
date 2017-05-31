@@ -1,7 +1,18 @@
 body {
 	margin: 0;
 	padding: 0;
+	font-family: 'Neucha', "PingFang SC", "Microsoft YaHei", sans-serif;
+	font-size: 14px;
+	line-height: 2;
+	color: #555;
+	background: #fff;
+}
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
 	line-height: 1.5;
+	font-family: 'Neucha', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 #app {
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -15,6 +26,10 @@ body {
 .fr {
 	float: right;
 }
+ul {
+	margin: 0;
+	padding: 0;
+}
 ul, li {
 	list-style: none;
 	float: left;
@@ -23,8 +38,15 @@ ul, li {
 	padding: 0;
 }
 a {
+	color: #555;
 	text-decoration: none;
+	word-wrap: break-word;
 }
 a, button {
 	transition: all 0.3s ease;
+}
+@media(min-width:1600px) {
+	body {
+		font-size: 16px;
+	}
 }
