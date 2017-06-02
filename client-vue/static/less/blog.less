@@ -1,3 +1,5 @@
+@import url(keyframes.less);
+
 .posts-expand {
 	.post-title {
 		font-size: 26px;
@@ -29,4 +31,19 @@
 }
 .page-post-detail .post-title, .page-post-detail .post-meta {
 	text-align: center;
+}
+.post_animate {
+	opacity: 0;
+	animation: kf-menu 1s;
+	-moz-animation: kf-menu 1s; /* Firefox */
+	-webkit-animation: kf-menu 1s;  /* Safari 和 Chrome */
+	-o-animation: kf-menu 1s;
+	animation-fill-mode: forwards;
+	-moz-animation-fill-mode: forwards; /* Firefox */
+	-webkit-animation-fill-mode: forwards;  /* Safari 和 Chrome */
+	-o-animation-fill-mode: forwards;
+		animation-delay: 1s;
+	-moz-animation-delay: 1s; /* Firefox */
+	-webkit-animation-delay: 1s;  /* Safari 和 Chrome */
+	-o-animation-delay: 1s;
 }

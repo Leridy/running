@@ -1,18 +1,18 @@
 <template>
-    <div class="container">
+    <div class="container" v-if="info!=''">
         <nav-header></nav-header>
         <main id="main" class="main">
             <div class="main-inner">
                 <div id="posts" class="posts-expand">
-                    <article class="post post-type-normal">
+                    <article class="post post-type-normal post_animate">
                         <header class="post-header">
-                            <h2 class="post-title" itemprop="name headline">Android反编译(逆向)教程</h2>
+                            <h2 class="post-title" itemprop="name headline">{{info.title}}</h2>
                             <div class="post-meta">
                                 <span class="post-time">
-                  <span class="post-meta-item-icon"> <i class="fa fa-calendar-o"></i>
-                  </span>
+                                <span class="post-meta-item-icon"> <i class="fa fa-calendar-o"></i>
+                                </span>
                                 <span class="post-meta-item-text">发表于</span>
-                                <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-03-20T18:16:21+08:00">2016-03-20</time>
+                                <span title="Post created">{{info.create_time*1000|dateFormat('yyyy-mm-dd')}}</span>
                                 </span>
                                 <span class="post-category">
                                  <span class="post-meta-divider">|</span>
@@ -25,7 +25,7 @@
                                 </span>
                             </div>
                         </header>
-                        <div class="post-body">这里显示详细内容</div>
+                        <div class="post-body"></div>
                     </article>
                 </div>
             </div>
@@ -40,10 +40,37 @@ export default {
     name: 'blog',
     components: {
         navHeader: header,
-        myFooter: footer
+        myFooter: footer,
+        info: ''
+    },
+    created() {
+        this.loadData();
     },
     data() {
         return {}
+    },
+    methods: {
+        loadData() {
+            this.$http.get('article/get_detail', {
+                params: {
+                    id: this.$route.params.id
+                }
+            }).then(function(response) {
+                return response.json();
+            }).then(response => {
+                if (response.res == 0) {
+                    var info = response.data[0];
+                    info.content = decodeURIComponent(info.content);                    
+                    this.info = info;
+                } else {
+                    this.$toast('加载失败，请稍候重试', {
+                        horizontalPosition: 'center'
+                    });
+                }
+            }, response => {
+
+            });
+        }
     }
 }
 </script>

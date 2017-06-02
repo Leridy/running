@@ -6,7 +6,7 @@
             </a>
             <ul class="fr menus">
                 <li class="menu-item">
-                    <a href="javascript:void(0)" class="active"><i class="fa fa-home"></i>首页</a>
+                    <a href="/" class="active"><i class="fa fa-home"></i>首页</a>
                 </li>
                 <li class="menu-item">
                     <a href="javascript:void(0)"><i class="fa fa-tag"></i>分类</a>

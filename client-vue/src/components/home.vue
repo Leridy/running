@@ -9,7 +9,7 @@
                             <template v-for="(item,index) in list">
                                 <article class="post post-type-normal post_animate" :id="'post_animate_'+(index+1)">
                                     <header class="post-header">
-                                        <a class="post-title-link" :href="'/blog'">
+                                        <a class="post-title-link" :href="'/blog/'+item.id">
                                             <h2 class="post-title" itemprop="name headline">{{item.title}}</h2>
                                         </a>
                                         <div class="post-meta">
@@ -31,7 +31,7 @@
                                     <div class="post-body">
                                         {{item.desc}}
                                         <div class="post-button text-center">
-                                            <a class="btn" :href="'blog/'+item.id+'.html'" rel="contents">阅读全文 »</a>
+                                            <a class="btn" :href="'/blog/'+item.id" rel="contents">阅读全文 »</a>
                                         </div>
                                     </div>
                                 </article>

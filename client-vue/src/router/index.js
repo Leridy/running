@@ -7,12 +7,13 @@ import NotFound from '@/components/NotFound'
 Vue.use(Router)
 
 export default new Router({
+	mode:'history',
 	routes: [{
 		path: '/',
 		name: 'Home',
 		component: Home
 	}, {
-		path: '/blog',
+		path: '/blog/:id',
 		name: 'Blog',
 		component: Blog
 	}, {
