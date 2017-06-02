@@ -1,4 +1,4 @@
-html,body {
+html, body {
 	margin: 0;
 	padding: 0;
 	font-family: 'Neucha', "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -8,6 +8,9 @@ html,body {
 	background: #fff;
 	position: relative;
 	height: 100%;
+	font-family: sans-serif;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
 }
 h1, h2, h3, h4, h5, h6 {
 	margin: 0;
@@ -21,10 +24,6 @@ h1, h2, h3, h4, h5, h6 {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
-}
-.container{
-	position: relative;;
-	min-height: 100%;
 }
 .fl {
 	float: left;
@@ -54,5 +53,20 @@ a, button {
 @media(min-width:1600px) {
 	body {
 		font-size: 16px;
+	}
+}
+.main {
+	padding-bottom: 100px;
+}
+.main-inner {
+	margin: 0 auto;
+	width: 700px;
+	margin-top: 80px;
+}
+@media (min-width:1600px) {
+	.container {
+		.main-inner {
+			width: 900px;
+		}
 	}
 }

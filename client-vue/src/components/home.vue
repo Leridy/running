@@ -9,7 +9,7 @@
                             <template v-for="(item,index) in list">
                                 <article class="post post-type-normal post_animate" :id="'post_animate_'+(index+1)">
                                     <header class="post-header">
-                                        <a class="post-title-link" :href="'blog/'+item.id+'.html'">
+                                        <a class="post-title-link" :href="'/blog'">
                                             <h2 class="post-title" itemprop="name headline">{{item.title}}</h2>
                                         </a>
                                         <div class="post-meta">
