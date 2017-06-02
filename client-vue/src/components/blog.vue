@@ -25,7 +25,7 @@
                                 </span>
                             </div>
                         </header>
-                        <div class="post-body"></div>
+                        <div class="post-body" v-html="info.content"></div>
                     </article>
                 </div>
             </div>
@@ -40,14 +40,15 @@ export default {
     name: 'blog',
     components: {
         navHeader: header,
-        myFooter: footer,
-        info: ''
+        myFooter: footer
     },
     created() {
         this.loadData();
     },
     data() {
-        return {}
+        return {            
+            info: ''
+        }
     },
     methods: {
         loadData() {
@@ -60,8 +61,8 @@ export default {
             }).then(response => {
                 if (response.res == 0) {
                     var info = response.data[0];
-                    info.content = decodeURIComponent(info.content);                    
-                    this.info = info;
+                    info.content = decodeURIComponent(info.content);
+                    this.info = info;                    
                 } else {
                     this.$toast('加载失败，请稍候重试', {
                         horizontalPosition: 'center'
