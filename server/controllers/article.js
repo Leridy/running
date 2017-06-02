@@ -2,9 +2,9 @@ var dao = require('../dao/data_access');
 
 //获取文章列表
 exports.getArticleList = function(req, res, next) {
-	var pageIndex = req.params.pageIndex,
+	var pageIndex = req.params.pageIndex || 1,
 		pageIndex = pageIndex <= 1 ? 1 : pageIndex,
-		pageSize = req.params.pageSize,
+		pageSize = req.params.pageSize || 5,
 		start = (pageIndex - 1) * pageSize,
 		query_str = 'select sql_calc_found_rows a.id,a.title,a.userid,a.content,a.desc,UNIX_TIMESTAMP(a.create_time) as create_time,b.name from article a left join user b on a.userid=b.id limit ' + start + ',' + pageSize;
 	dao.query(query_str).done(function(data) {

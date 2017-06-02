@@ -2,7 +2,7 @@
     <footer id="footer" class="footer">
         <div class="footer-inner">
             <div class="copyright">
-                © 2014 -
+                ©2000
                 <span itemprop="copyrightYear">2017</span>            
                 </div>
         </div>

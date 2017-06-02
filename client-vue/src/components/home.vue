@@ -6,46 +6,38 @@
                 <div class="content-wrap">
                     <div id="content" class="content">
                         <section id="posts" class="posts-expand">
-                            <article class="post post-type-normal">
-                                <header class="post-header">
-                                    <a class="post-title-link" href="/blog/2017/03/elasticsearch-java-client.html">
-                                        <h2 class="post-title" itemprop="name headline">ElasticSearch Java客户端介绍</h2>
-                                    </a>
-                                    <div class="post-meta">
-                                        <span class="post-time">            
-                                         <span class="post-meta-item-icon">
-                                            <i class="fa fa-calendar-o"></i>
-                                           </span>
-                                        <span class="post-meta-item-text">发表于</span>
-                                        <time title="Post created">
-                                            2017-03-10
-                                        </time>
-                                        </span>
-                                        <span class="post-category">            
-                                        <span class="post-meta-divider">|</span>
-                                        <span class="post-meta-item-icon">
-                                          <i class="fa fa-folder-o"></i>
-                                        </span>
-                                        <span class="post-meta-item-text">分类于</span>
-                                        <a href="/categories/Java/" itemprop="url" rel="index">
-                                            Java
+                            <template v-for="(item,index) in list">
+                                <article class="post post-type-normal post_animate" :id="'post_animate_'+(index+1)">
+                                    <header class="post-header">
+                                        <a class="post-title-link" :href="'blog/'+item.id+'.html'">
+                                            <h2 class="post-title" itemprop="name headline">{{item.title}}</h2>
                                         </a>
-                                        </span>
+                                        <div class="post-meta">
+                                            <span class="post-time">
+                                                <span class="post-meta-item-icon"> <i class="fa fa-calendar-o"></i>
+                                                </span>
+                                            <span class="post-meta-item-text">发表于</span>
+                                            <time title="Post created">{{item.create_time*1000|dateFormat('yyyy-mm-dd')}}</time>
+                                            </span>
+                                            <span class="post-category">
+                                                <span class="post-meta-divider">|</span>
+                                            <span class="post-meta-item-icon"> <i class="fa fa-folder-o"></i>
+                                                </span>
+                                            <span class="post-meta-item-text">分类于</span>
+                                            <a href="/categories/Java/" itemprop="url" rel="index">Java</a>
+                                            </span>
+                                        </div>
+                                    </header>
+                                    <div class="post-body">
+                                        {{item.desc}}
+                                        <div class="post-button text-center">
+                                            <a class="btn" :href="'blog/'+item.id+'.html'" rel="contents">阅读全文 »</a>
+                                        </div>
                                     </div>
-                                </header>
-                                <div class="post-body" itemprop="articleBody">
-                                    这里显示的简述
-                                    <div class="post-button text-center">
-                                        <a class="btn" href="/blog/2017/03/elasticsearch-java-client.html#more" rel="contents">
-                                         阅读全文 »
-                                          </a>
-                                    </div>
-                                </div>
-                            </article>
+                                </article>
+                            </template>
                         </section>
-                        <nav class="pagination">
-                            <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">…</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-                        </nav>
+                        <pagination :pages="pages" :changeIndex="changeIndex"></pagination>
                     </div>
                 </div>
             </div>
@@ -56,15 +48,52 @@
 <script>
 import header from "./header";
 import footer from "./footer";
+import pagination from "./pagination";
 export default {
     name: 'home',
     components: {
         navHeader: header,
-        myFooter: footer
+        myFooter: footer,
+        pagination: pagination
     },
     data() {
         return {
-            msg: 'Welcome to Your Vue.js App'
+            pages: 0,
+            pageSize: 10,
+            pageIndex: 1,
+            list: []
+        }
+    },
+    created() {
+        this.loadList();
+    },
+    methods: {
+        changeIndex(index) {
+            this.pageIndex = index;
+            this.loadList;
+        },
+        loadList() {
+            this.$http.get('article/get_list', {
+                params: {
+                    pageIndex: this.pageIndex,
+                    pageSize: this.pageSize
+                }
+            }).then(function(response) {
+                return response.json();
+            }).then(response => {
+                if (response.res == 0) {
+                    if (this.pageIndex == 1) {
+                        this.pages = Math.ceil(response.count / this.pageSize);
+                    }
+                    this.list = response.data;
+                } else {
+                    this.$toast('加载失败，请稍候重试', {
+                        horizontalPosition: 'center'
+                    });
+                }
+            }, response => {
+
+            });
         }
     }
 }
