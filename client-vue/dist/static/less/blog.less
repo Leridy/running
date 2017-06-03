@@ -1,0 +1,49 @@
+@import url(keyframes.less);
+
+.posts-expand {
+	.post-title {
+		font-size: 26px;
+		text-align: center;
+		word-break: break-word;
+		font-weight: 400;
+	}
+	.post-meta {
+		margin: 3px 0 60px 0;
+		color: #999;
+		font-family: 'Neucha', "PingFang SC", "Microsoft YaHei", sans-serif;
+		font-size: 12px;
+		text-align: center;
+
+		a {
+			border-bottom-color: #ccc;
+			color: #555;
+			font-size: 12px;
+			text-decoration: none;
+			border-bottom: 1px solid #999;
+			word-wrap: break-word;
+		}
+	}
+}
+@media (min-width:1600px) {
+	.posts-expand .post-title {
+		font-size: 26px;
+	}
+}
+.page-post-detail .post-title, .page-post-detail .post-meta {
+	text-align: center;
+}
+.post_animate {
+	opacity: 0;
+	animation: kf-menu 1s;
+	-moz-animation: kf-menu 1s; /* Firefox */
+	-webkit-animation: kf-menu 1s;  /* Safari 和 Chrome */
+	-o-animation: kf-menu 1s;
+	animation-fill-mode: forwards;
+	-moz-animation-fill-mode: forwards; /* Firefox */
+	-webkit-animation-fill-mode: forwards;  /* Safari 和 Chrome */
+	-o-animation-fill-mode: forwards;
+		animation-delay: 1s;
+	-moz-animation-delay: 1s; /* Firefox */
+	-webkit-animation-delay: 1s;  /* Safari 和 Chrome */
+	-o-animation-delay: 1s;
+}
