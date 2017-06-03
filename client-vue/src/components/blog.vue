@@ -19,7 +19,7 @@
                                 <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i>
                                  </span>
                                 <span class="post-meta-item-text">分类于</span>
-                                <template v:for="(tag,i) in item.tags.split('|')">
+                                <template v-for="(tag,i) in info.tags.split('|')">
                                     <a :href="'/categories/'+tag">
                                         <span>{{tag}}</span>
                                     </a>
@@ -44,7 +44,7 @@ export default {
         navHeader: header,
         myFooter: footer
     },
-    created() {
+    created() {        
         this.loadData();
     },
     data() {
@@ -64,7 +64,8 @@ export default {
                 if (response.res == 0) {
                     var info = response.data[0];
                     info.content = decodeURIComponent(info.content);
-                    this.info = info;
+                    document.title=info.title;
+                    this.info = info;                    
                 } else {
                     this.$toast('加载失败，请稍候重试', {
                         horizontalPosition: 'center'

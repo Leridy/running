@@ -24,7 +24,7 @@
                                             <span class="post-meta-item-icon"> <i class="fa fa-folder-o"></i>
                                                 </span>
                                             <span class="post-meta-item-text">分类于</span>
-                                            <template v:for="(tag,i) in item.tags.split('|')">
+                                            <template v-for="(tag,i) in item.tags.split('|')">
                                                 <a :href="'/categories/'+tag">
                                                     <span>{{tag}}</span>
                                                 </a>
@@ -69,6 +69,7 @@ export default {
         }
     },
     created() {
+        document.title='首页';
         this.loadList();
     },
     methods: {

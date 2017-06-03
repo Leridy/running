@@ -1,19 +1,18 @@
-<template>   
+<template>
     <footer id="footer" class="footer">
         <div class="footer-inner">
             <div class="copyright">
-                ©2000
-                <span itemprop="copyrightYear">2017</span>            
-                </div>
+                ©2000-<span>{{currentYear}}</span>
+            </div>
         </div>
-    </footer>    
+    </footer>
 </template>
 <script>
 export default {
     name: 'footer',
     data() {
         return {
-            msg: 'Welcome to Your Vue.js App'
+            currentYear:new Date().getFullYear()
         }
     }
 }
