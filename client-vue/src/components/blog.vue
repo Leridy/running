@@ -6,7 +6,7 @@
                 <div id="posts" class="posts-expand">
                     <article class="post post-type-normal post_animate">
                         <header class="post-header">
-                            <h2 class="post-title" itemprop="name headline">{{info.title}}</h2>
+                            <h2 class="post-title">{{info.title}}</h2>
                             <div class="post-meta">
                                 <span class="post-time">
                                 <span class="post-meta-item-icon"> <i class="fa fa-calendar-o"></i>
@@ -19,9 +19,11 @@
                                 <span class="post-meta-item-icon"><i class="fa fa-folder-o"></i>
                                  </span>
                                 <span class="post-meta-item-text">分类于</span>
-                                <a href="/categories/Android/">
-                                    <span>Android</span>
-                                </a>
+                                <template v:for="(tag,i) in item.tags.split('|')">
+                                    <a :href="'/categories/'+tag">
+                                        <span>{{tag}}</span>
+                                    </a>
+                                </template>
                                 </span>
                             </div>
                         </header>
@@ -46,7 +48,7 @@ export default {
         this.loadData();
     },
     data() {
-        return {            
+        return {
             info: ''
         }
     },
@@ -62,7 +64,7 @@ export default {
                 if (response.res == 0) {
                     var info = response.data[0];
                     info.content = decodeURIComponent(info.content);
-                    this.info = info;                    
+                    this.info = info;
                 } else {
                     this.$toast('加载失败，请稍候重试', {
                         horizontalPosition: 'center'
