@@ -121,12 +121,12 @@ $(function() {
 		operateFormatter: function(value, row, index) {
 			return [
 				'<a href="/pages/article-tags-edit.html?id=' + row.id + '">编辑</a>',
-				'<a href="javascript:void(0)" data-action="operate" data-id="' + row.id + '" data-delete="' + row.is_delete.data[0] + '">' + (row.is_delete.data[0] == 1 ? '显示' : '隐藏') + '</a>',
+				'<a href="javascript:void(0)" data-action="operate" data-id="' + row.id + '" data-delete="' + row.is_delete + '">' + (row.is_delete == 1 ? '显示' : '隐藏') + '</a>',
 				'<a href="javascript:void(0)" data-action="delete" data-id="' + row.id + '">删除</a>'
 			].join('&nbsp;');
 		},
 		showFormatter: function(value, row, index) {
-			return ['显示', '隐藏'][row.is_delete.data[0]];
+			return ['显示', '隐藏'][row.is_delete];
 		},
 	};
 
