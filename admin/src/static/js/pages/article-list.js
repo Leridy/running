@@ -28,7 +28,7 @@ $(function() {
 		},
 		bindEvent: function() {
 			nodes.table.on('click', '[data-action]', this.handleAction);
-			nodes.search.on('submit',this.handleSearch);
+			//nodes.search.on('submit',this.handleSearch);
 		},
 		handleAction: function(event) {
 			event.preventDefault();
