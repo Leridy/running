@@ -14,7 +14,7 @@ $(function() {
 			$.extend(nodes, {
 				wrapper: $('#wrapper'),
 				table: $('#table'),
-				search:("#search")
+				search: $("#search")
 			});
 		},
 		initData: function() {
@@ -69,7 +69,7 @@ $(function() {
 					}
 				});
 		},
-		handleSearch:function(event) {
+		handleSearch: function(event) {
 			event.preventDefault();
 		},
 		getData: function(params) {
