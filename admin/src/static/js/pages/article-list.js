@@ -71,7 +71,7 @@ $(function() {
 		},
 		handleSearch:function(event) {
 			event.preventDefault();
-		}
+		},
 		getData: function(params) {
 			return System.request({
 					type: 'GET',
