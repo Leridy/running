@@ -11,7 +11,7 @@ var bucket = 'runningdreamer';
 //构建上传策略函数
 function uptoken(bucket, key) {
 	var putPolicy = new qiniu.rs.PutPolicy(bucket + ":" + key);
-	putPolicy.returnBody = '{"name":$(fname),"size":$(fsize),"w":$(imageInfo.width),"h":$(imageInfo.height),"hash":$(etag),"imageFormat":"$(imageInfo.format)","url":"http://res.runningdreamer.com/' + key + '"}';
+	putPolicy.returnBody = '{"name":$(fname),"size":$(fsize),"w":$(imageInfo.width),"h":$(imageInfo.height),"hash":$(etag),"imageFormat":"$(imageInfo.format)","url":"//res.runningdreamer.com/' + key + '"}';
 	putPolicy.saveKey = key;
 	putPolicy.scope = bucket;
 	return putPolicy.token();

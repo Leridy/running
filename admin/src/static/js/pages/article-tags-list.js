@@ -125,7 +125,7 @@ $(function() {
 				'<a href="javascript:void(0)" data-action="delete" data-id="' + row.id + '">删除</a>'
 			].join('&nbsp;');
 		},
-		showFormatter: function(value, row, index) {			
+		showFormatter: function(value, row, index) {
 			return ['显示', '隐藏'][row.is_delete.data[0]];
 		},
 	};
