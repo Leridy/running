@@ -65,7 +65,8 @@ $(function() {
 				$dataX: $("#dataX"),
 				$dataY: $("#dataY"),
 				$dataHeight: $("#dataHeight"),
-				$dataWidth: $("#dataWidth")
+				$dataWidth: $("#dataWidth"),
+				modalJustUpload: $("#modal-just-upload")
 			});
 		},
 		bindEvents: function() {
@@ -76,6 +77,7 @@ $(function() {
 			nodes.showPickfileBtn.on('click', this.handleShowPickFile);
 			nodes.modalReplySure.on('click', this.handleReplySure);
 			nodes.CropperImg.on('load', this.handleCropperImgLoad);
+			nodes.modalJustUpload.on('click', this.handleJustUpload);
 			nodes.form.on('click', '[data-action="tag"]', this.handleTagClick);
 		},
 		handleTagClick: function() {
@@ -149,13 +151,6 @@ $(function() {
 				});
 				return;
 			}
-			if (!data.formData.cover) {
-				$.toast({
-					icon: 'error',
-					text: '请上传封面图'
-				});
-				return;
-			}
 			formData.cover = data.formData.cover;
 			formData.id = data.id;
 			if (!formData.content) {
@@ -218,6 +213,12 @@ $(function() {
 			}
 			data.formData.cover = pictureUrl;
 			nodes.prviewImg.attr('src', pictureUrl);
+			nodes.modalImgCropper.modal('hide');
+		},
+		handleJustUpload: function() {
+			var imgData = nodes.CropperImg.cropper("getData", true);
+			data.formData.cover = imgData;
+			nodes.prviewImg.attr('src', imgData);
 			nodes.modalImgCropper.modal('hide');
 		},
 		handleShowPickFile: function(event) {

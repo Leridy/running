@@ -20,3 +20,6 @@ a:hover{
 	.order-print-hide{display:none;}
 	.order-print-area{display:block;}
 }
+.operate-th{
+	word-break:keep-all;
+}
