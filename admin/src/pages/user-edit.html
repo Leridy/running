@@ -18,17 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/static/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/cropper/css/cropper.css">  
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-    <style>
-        .bootstrap-tagsinput{width:100%;}
-        .overflow{overflow:hidden;}
-        .bd{display:inline-block;vertical-align: middle;}
-        #modal-img-cropper .modal-dialog{width:80%;}
-        .preview{
-            height: 200px;
-            width: 200px;
-        }
-        .fixed-table-body{overflow: visible;}
-    </style>
+    <link rel="stylesheet" type="text/css" href="/static/bower_components/zoom.js/css/zoom.css">
 </head>
 <body>
     <div class="modal fade" id="modal-img-cropper">
@@ -86,6 +76,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">                    
+                   <button type="button" class="btn btn-primary" id="modal-just-upload">直接上传</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                     <button type="button" class="btn btn-primary" id="modal-reply-sure">确认</button>
                 </div>

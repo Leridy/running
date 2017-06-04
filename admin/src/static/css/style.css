@@ -1,25 +1,103 @@
-a:hover{
+a:hover {
 	text-decoration: none;
 }
-.add-ticket .table{}
-.add-ticket .table tbody tr{cursor:pointer;}
 
-.ticket-preview{position:relative;width:320px;margin:0 auto;}
-.ticket-preview img{width:100%;}
-.ticket-preview .content{position:absolute;top:79px;left:32px;width:256px;height:454px;background-color:#fff;box-sizing:border-box;overflow-x:hidden;overflow-y:auto;}
+.add-ticket .table {
+}
 
-.optbtn .btn{width:48px;}
-.opr-btn{width:max-content;}
+.add-ticket .table tbody tr {
+	cursor: pointer;
+}
 
+.ticket-preview {
+	position: relative;
+	width: 320px;
+	margin: 0 auto;
+}
 
-.order-print-area{display:none;}
-.order-print-area{margin-top:30px;margin-bottom:30px;padding:20px;border:1px solid #a9a9a9;}
-.order-print-attrs label{display:inline-block;width:100px;}
-.order-print-attrs.table>tbody>tr>td{border-top:none;}
+.ticket-preview img {
+	width: 100%;
+}
+
+.ticket-preview .content {
+	position: absolute;
+	top: 79px;
+	left: 32px;
+	width: 256px;
+	height: 454px;
+	background-color: #fff;
+	box-sizing: border-box;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.optbtn .btn {
+	width: 48px;
+}
+
+.opr-btn {
+width: max-content;
+}
+
+.order-print-area {
+	display: none;
+}
+
+.order-print-area {
+	margin-top: 30px;
+	margin-bottom: 30px;
+	padding: 20px;
+	border: 1px solid #a9a9a9;
+}
+
+.order-print-attrs label {
+	display: inline-block;
+	width: 100px;
+}
+
+.order-print-attrs.table>tbody>tr>td {
+	border-top: none;
+}
+
 @media print {
-	.order-print-hide{display:none;}
-	.order-print-area{display:block;}
+	.order-print-hide {
+		display: none;
+	}
+
+	.order-print-area {
+		display: block;
+	}
+
 }
-.operate-th{
-	word-break:keep-all;
+
+.operate-th {
+	word-break: keep-all;
 }
+
+.bootstrap-tagsinput {
+	width: 100%;
+}
+
+.overflow {
+	overflow: hidden;
+}
+
+.bd {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#modal-img-cropper .modal-dialog {
+	width: 80%;
+}
+
+.preview {
+	height: 200px;
+	width: 200px;
+}
+
+.btn-tag {
+	margin-bottom: 5px;
+	margin-right: 5px;
+}
+  .fixed-table-body{overflow: visible;}

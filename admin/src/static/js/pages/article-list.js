@@ -13,7 +13,8 @@ $(function() {
 		initNodes: function() {
 			$.extend(nodes, {
 				wrapper: $('#wrapper'),
-				table: $('#table')
+				table: $('#table'),
+				search:("#search")
 			});
 		},
 		initData: function() {
@@ -27,6 +28,7 @@ $(function() {
 		},
 		bindEvent: function() {
 			nodes.table.on('click', '[data-action]', this.handleAction);
+			nodes.search.on('submit',this.handleSearch);
 		},
 		handleAction: function(event) {
 			event.preventDefault();
@@ -67,6 +69,9 @@ $(function() {
 					}
 				});
 		},
+		handleSearch:function(event) {
+			event.preventDefault();
+		}
 		getData: function(params) {
 			return System.request({
 					type: 'GET',

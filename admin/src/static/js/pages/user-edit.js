@@ -62,7 +62,8 @@ $(function() {
 				$dataX: $("#dataX"),
 				$dataY: $("#dataY"),
 				$dataHeight: $("#dataHeight"),
-				$dataWidth: $("#dataWidth")
+				$dataWidth: $("#dataWidth"),
+				modalJustUpload: $("#modal-just-upload")
 			});
 		},
 		handleCropperImgLoad: function() {
@@ -110,6 +111,7 @@ $(function() {
 			nodes.modalReplySure.on('click', this.handleReplySure);
 			nodes.submit.on('click', this.handleSubmitForm);
 			nodes.CropperImg.on('load', this.handleCropperImgLoad);
+			nodes.modalJustUpload.on('clck', this.handleJustUpload);
 		},
 		getUserData: function(id) {
 			return System.request({
@@ -236,6 +238,12 @@ $(function() {
 			}
 			data.formData.photo = pictureUrl;
 			nodes.prviewImg.attr('src', pictureUrl);
+			nodes.modalImgCropper.modal('hide');
+		},
+		handleJustUpload: function() {
+			var imgData = nodes.CropperImg.cropper("getData", true);
+			data.formData.photo = imgData;
+			nodes.prviewImg.attr('src', imgData);
 			nodes.modalImgCropper.modal('hide');
 		},
 		handleShowPickFile: function(event) {

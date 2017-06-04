@@ -90,34 +90,30 @@ exports.editArticle = function(req, res, next) {
 						result.msg = '内容不能为空';
 						res.json(result);
 					} else {
-						if (stringHelper.trimAll(cover).length == 0) {
+						if (stringHelper.trimAll(desc).length == 0) {
 							result.msg = '摘要不能为空';
 							res.json(result);
 						} else {
-							if (stringHelper.trimAll(cover).length == 0) {
-								result.msg = '封面图不能为空';
-								res.json(result);
-							} else {
-								var query_str = 'select id from user where id="' + userid + '" limit 0,1';
-								dao.query(query_str).done(function(data) {
-									if (data.res == 0) {
-										if (data.data.length > 0) {											
-											query_str = 'insert into article(title,content,cover,userid,`desc`,tags) values("' + title + '","' + content + '","' + cover + '","' + userid + '","' + desc + '","' + tags + '")';
-											if (id > 0) {
-												query_str = 'update article set title="' + title + '",content="' + content + '",cover="' + cover + '",userid=' + userid + ',`desc`="' + desc + '",tags="' + tags + '" where id=' + id;
-											}
-											dao.query(query_str).done(function(data2) {
-												res.json(data2);
-											})
-										} else {
-											result.msg = '操作失败，该用户不存在';
-											res.json(result);
+							var query_str = 'select id from user where id="' + userid + '" limit 0,1';
+							dao.query(query_str).done(function(data) {
+								if (data.res == 0) {
+									if (data.data.length > 0) {
+										query_str = 'insert into article(title,content,cover,userid,`desc`,tags) values("' + title + '","' + content + '","' + cover + '","' + userid + '","' + desc + '","' + tags + '")';
+										if (id > 0) {
+											query_str = 'update article set title="' + title + '",content="' + content + '",cover="' + cover + '",userid=' + userid + ',`desc`="' + desc + '",tags="' + tags + '" where id=' + id;
 										}
+										dao.query(query_str).done(function(data2) {
+											res.json(data2);
+										})
 									} else {
-										res.json(data);
+										result.msg = '操作失败，该用户不存在';
+										res.json(result);
 									}
-								})
-							}
+								} else {
+									res.json(data);
+								}
+							})
+
 						}
 					}
 				}
