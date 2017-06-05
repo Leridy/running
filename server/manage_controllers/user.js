@@ -45,6 +45,8 @@ exports.login = function(req, res, next) {
 					}
 					var uInfo = JSON.stringify(sessionInfo);
 					redisClient.set('sessionInfo', uInfo);
+					currentUInfo.name = data.data[0].name;
+					currentUInfo.photo = data.data[0].photo;
 					var resData = {
 						res: 0,
 						data: currentUInfo
