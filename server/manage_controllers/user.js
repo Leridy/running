@@ -33,6 +33,8 @@ exports.login = function(req, res, next) {
 							for (var i = 0; i < sessionInfo.length; i++) {
 								if (sessionInfo[i].uid == uid) {
 									sessionInfo[i].token = token;
+								} else {
+									sessionInfo.push(currentUInfo);
 								}
 							}
 						} else {
@@ -212,7 +214,7 @@ exports.editUser = function(req, res, next) {
 									} else {
 										query_str = 'update user set name="' + name + '",photo="' + photo + '",login_name="' + login_name + '",is_admin=' + is_admin + ' where id=' + id;
 									}
-								}								
+								}
 								dao.query(query_str).done(function(data2) {
 									res.json(data2);
 								})
