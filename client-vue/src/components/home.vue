@@ -70,30 +70,12 @@ export default {
     },
     created() {
         document.title = '首页';
-        //this.loadList();        
-        var uid = 1,
-            token = 2,
-            currentUInfo = {
-                uid: uid,
-                token: token
-            };
-        var reply = '[{\"uid\":10004,\"token\":\"c0e2f4e8041a0df7b6172173dc81225d\"}]';
-        var sessionInfo = JSON.parse(reply);
-        if (sessionInfo.length > 0) {
-            for (var i = 0; i < sessionInfo.length; i++) {
-                if (sessionInfo[i].uid == uid) {
-                    sessionInfo[i].token = token;
-                } 
-            }
-        } else {
-            sessionInfo.push(currentUInfo);
-        }
-        console.log(sessionInfo);
+        this.loadList();
     },
     methods: {
         changeIndex(index) {
             this.pageIndex = index;
-            this.loadList;
+            this.loadList();
         },
         loadList() {
             this.$http.get('article/get_list', {

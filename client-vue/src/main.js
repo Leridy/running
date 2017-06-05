@@ -10,7 +10,6 @@ import dateFormat from "dateformat";
 Vue.use(vueResource);
 Vue.use(Toast);
 Vue.filter('dateFormat', dateFormat);
-
 Vue.config.productionTip = false;
 Vue.http.options.root = 'https://api.runningdreamer.com';
 

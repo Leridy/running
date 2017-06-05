@@ -27,13 +27,36 @@
 		}
 	}
 }
+.page-post-detail .post-title, .page-post-detail .post-meta {
+	text-align: center;
+}
+@media (max-width:767px) {
+	.container {
+		.main-inner {
+			width: auto;
+			margin-top: 0px;
+
+			.posts-expand {
+				margin: 0 20px;
+
+				.post-header {
+					text-align: center;
+				}
+				.post-title {
+					font-size: 20px;
+					text-align: center;
+				}
+				.post-meta {
+					text-align: center;
+				}
+			}
+		}
+	}
+}
 @media (min-width:1600px) {
 	.posts-expand .post-title {
 		font-size: 26px;
 	}
-}
-.page-post-detail .post-title, .page-post-detail .post-meta {
-	text-align: center;
 }
 .post_animate {
 	opacity: 0;

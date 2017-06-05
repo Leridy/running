@@ -84,6 +84,7 @@
 	}
 	.post-body {
 		font-family: 'Neucha', "PingFang SC", "Microsoft YaHei", sans-serif;
+		text-align: left;
 
 		p {
 			margin: 0 0 25px 0;
@@ -177,6 +178,29 @@
 		-moz-animation-delay: 3.7s; /* Firefox */
 		-webkit-animation-delay: 3.7s;  /* Safari 和 Chrome */
 		-o-animation-delay: 3.7s;
+	}
+}
+@media (max-width:767px) {
+	.container {
+		.main-inner {
+			width: auto;
+			margin-top: 0px;
+
+			.posts-expand {
+				margin: 0 20px;
+
+				.post-header {
+					text-align: center;
+				}
+				.post-title {
+					font-size: 20px;
+					text-align: center;
+				}
+				.post-meta {
+					text-align: center;
+				}
+			}
+		}
 	}
 }
 @media (min-width:992px) {
