@@ -13,7 +13,6 @@ $(function() {
 		initNodes: function() {
 			$.extend(nodes, {
 				wrapper: $('#wrapper'),
-
 				filters: $('#filters'),
 				keyword: $('#keyword'),
 				search: $('#search'),
@@ -120,7 +119,7 @@ $(function() {
 			return [
 				'否',
 				'是'
-			][row.is_admin.data];
+			][row.is_admin];
 		},
 		statusFormatter: function(value, row, index) {
 			return [

@@ -7,28 +7,15 @@ $(function() {
                 url: 'manage/get_manager_info'
             })
             .done(function(response) {
-                if (response.ret == 0) {
-                    return;
-                    var user = response.data;
-                    var role = !user.role ? '' : '(' + user.role + ')';
-                    $('#userInfo').show().find('[node-type="nick"]').text(user.admin + role);
+                if (response.res == 0) {
+                    var user = response.data[0];                    
+                    $('#userInfo').show().find('[node-type="nick"]').text(user.name);
                     System.localStorage.set('user', user);
-
-                    var menu = $('#side-menu'),
-                        item;
-                    for (var i in user.show) {
-                        item = menu.find('[data-id="' + i + '"]').show();
-
-                        for (var c = 0, len = user.show[i].length; c < len; c++) {
-                            item.find('[data-sub-id="' + user.show[i][c] + '"]').show();
-                        }
-                    }
-
                     $('#wrapper').removeClass('blur');
                 } else {
-                    /* System.localStorage.del('auth');
-                     System.localStorage.del('user');
-                     System.redirect('/login.html');*/
+                    System.localStorage.del('auth');
+                    System.localStorage.del('user');
+                    System.redirect('/login.html');
                 }
             });
     } else {

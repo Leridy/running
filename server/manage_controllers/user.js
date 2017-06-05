@@ -45,14 +45,18 @@ exports.login = function(req, res, next) {
 					}
 					var uInfo = JSON.stringify(sessionInfo);
 					redisClient.set('sessionInfo', uInfo);
-					currentUInfo.name = data.data[0].name;
-					currentUInfo.photo = data.data[0].photo;
 					var resData = {
 						res: 0,
 						data: currentUInfo
 					};
-					res.json(resData);
+					res.json(resData);					
 				});
+			} else {
+				var res_err = {
+					res: -1,
+					msg: '该用户不存在'
+				};
+				res.json(res_err);
 			}
 		}
 	});

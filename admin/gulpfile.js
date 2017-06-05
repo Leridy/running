@@ -6,32 +6,38 @@ var gulp = require('gulp'),
 	htmlmin = require('gulp-htmlmin'),
 	replace = require('gulp-replace'),
 	minifyCss = require('gulp-minify-css'),
-	revReplace = require('gulp-rev-replace');
+	revReplace = require('gulp-rev-replace'),
+	prefixUrl = require('gulp-prefix-url'),
+	prefix = '//static1.runningdreamer.com';
 
 
 gulp.task('html', function() {
 	return gulp.src([
-			'./src/*.html',
-			'./src/**/*.html',
-			'!./src/static/**/*',
-		])
+		'./src/*.html',
+		'./src/**/*.html',
+		'!./src/static/**/*',
+	])
 
-		// .pipe(gulpif('*.html', replace('config.development', 'config.production')))
+	// .pipe(gulpif('*.html', replace('config.development', 'config.production')))	
 
-		.pipe(useref())
+	.pipe(useref())
 
-		.pipe(gulpif('*.js', uglify()))
+	.pipe(gulpif('*.js', uglify()))
 		.pipe(gulpif('*.css', minifyCss()))
 
-		.pipe(gulpif('*.js', rev()))
+	.pipe(gulpif('*.js', rev()))
 		.pipe(gulpif('*.css', rev()))
 
-		.pipe(revReplace({
+	.pipe(revReplace({
 			replaceInExtensions: ['.js', '.css', '.html']
 		}))
-		.pipe(gulpif('*.html', htmlmin({collapseWhitespace: true})))
+		.pipe(gulpif('*.html', htmlmin({
+			collapseWhitespace: true
+		})))
 
-		.pipe(gulp.dest('./release'));
+    .pipe(gulpif('*.html', prefixUrl(prefix)))
+
+	.pipe(gulp.dest('./release'));
 });
 
 gulp.task('base', function() {
@@ -67,5 +73,6 @@ gulp.task('images', function() {
 		])
 		.pipe(gulp.dest('./release/static/images'));
 });
+
 
 gulp.task('default', ['html', 'base', 'fonts', 'images']);

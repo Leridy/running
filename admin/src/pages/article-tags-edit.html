@@ -8,16 +8,18 @@
 
     <title>新增文章</title>
 
+    <!-- build:css(src) /static/css/edit-base.css -->
     <link rel="stylesheet" type="text/css" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/animate.css/animate.min.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/jquery-toast-plugin/dist/jquery.toast.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/admin.css">
-
     <link rel="stylesheet" type="text/css" href="/static/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/cropper/css/cropper.css">
+    <link rel="stylesheet" type="text/css" href="/static/bower_components/zoom.js/css/zoom.css">
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <!-- endbuild -->      
 </head>
 <body>
     <div class="main-content fadeIn animated" id="wrapper">
@@ -67,28 +69,25 @@
         <div style="height:30px;"></div>
     </script>
 
+    <!-- build:js(src) /static/js/edit-common.js -->
     <script type="text/javascript" src="/static/js/page.js"></script>
     <script type="text/javascript" src="/static/bower_components/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/bower_components/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
     <script type="text/javascript" src="/static/js/system.js"></script>
-
     <script type="text/javascript" src="/static/bower_components/fex-webuploader/dist/webuploader.min.js"></script>
     <script type="text/javascript" src="/static/bower_components/moment/min/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="/static/bower_components/moment/locale/zh-cn.js"></script>
     <script type="text/javascript" src="/static/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-
-    <script type="text/javascript" src="/static/bower_components/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" src="/static/bower_components/ueditor/ueditor.all.js"></script>
-
     <script type="text/javascript" src="/static/bower_components/plupload/js/plupload.full.min.js"></script>
     <script type="text/javascript" src="/static/bower_components/plupload/js/i18n/zh_CN.js"></script>
     <script type="text/javascript" src="/static/bower_components/qiniu/dist/qiniu.min.js"></script>
-
     <script type="text/javascript" src="/static/bower_components/zoom.js/js/zoom.js"></script>
     <script type="text/javascript" src="/static/bower_components/cropper/js/cropper.js"></script>
-
     <script type="text/javascript" src="/static/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+    <!-- endbuild -->    
+    <!-- build:js(src) /static/js/article-tags-edit.js -->
     <script type="text/javascript" src="/static/js/pages/article-tags-edit.js"></script>
+    <!-- endbuild -->
 </body>
 </html>

@@ -8,6 +8,7 @@
 
     <title>文章列表</title>
 
+   <!-- build:css(src) /static/css/list-base.css -->
     <link rel="stylesheet" type="text/css" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/animate.css/animate.min.css">
@@ -16,6 +17,8 @@
 
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     <link rel="stylesheet" type="text/css" href="/static/bower_components/bootstrap-table/dist/bootstrap-table.css">    
+    <link rel="stylesheet" type="text/css" href="/static/bower_components/zoom.js/css/zoom.css">
+    <!-- endbuild -->    
 </head>
 <body>
 
@@ -64,15 +67,20 @@
 
 </div>
 
+<!-- build:js(src) /static/js/list-common.js -->
 <script type="text/javascript" src="/static/js/page.js"></script>
 <script type="text/javascript" src="/static/bower_components/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/static/bower_components/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
 <script type="text/javascript" src="/static/bower_components/bootbox.js/bootbox.js"></script>
+<script type="text/javascript" src="/static/bower_components/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
 <script type="text/javascript" src="/static/js/system.js"></script>
+<script type="text/javascript" src="/static/bower_components/zoom.js/js/zoom.js"></script>
+<!-- endbuild -->
 
+<!-- build:js(src) /static/js/article-list.js -->
 <script type="text/javascript" src="/static/js/pages/article-list.js"></script>
 <script type="text/javascript" src="/static/bower_components/bootstrap-table/dist/bootstrap-table.js"></script>
 <script type="text/javascript" src="/static/bower_components/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+<!-- endbuild -->
 </body>
 </html>
