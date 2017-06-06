@@ -1,6 +1,12 @@
 @import "../../node_modules/font-awesome/less/font-awesome.less";
 @import "../../node_modules/animate.css/animate.min.css";
 
+@font-face {
+	font-family: 'Neucha';
+	src: url('../fonts/neucha.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
 html, body {
 	margin: 0;
 	padding: 0;
@@ -10,13 +16,16 @@ html, body {
 	color: #555;
 	background: #fff;
 	position: relative;
-	height: 100%;
-	font-family: sans-serif;
+	height: 100%;	
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
 
 	&.noscroll {
 		overflow: hidden;
+
+		#app {
+			overflow: hidden;
+		}
 	}
 }
 h1, h2, h3, h4, h5, h6 {
@@ -27,9 +36,6 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: 'Neucha', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 #app {
-	font-family: 'Avenir', Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	position: relative;
 	min-height: 100%;

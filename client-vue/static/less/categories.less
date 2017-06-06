@@ -1,0 +1,91 @@
+@import url(keyframes.less);
+
+.posts-expand {
+	.post-title {
+		font-size: 26px;
+		text-align: left;
+		word-break: break-word;
+		font-weight: 400;
+	}
+}
+.category-all-page {
+	.category-all-title {
+		text-align: center;
+	}
+	.category-all {
+		margin-top: 20px;
+
+		.category-list {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			float: none;
+			text-align: left;
+
+			.category-list-item {
+				margin: 5px 10px;
+				list-style: list-item;
+				float: none;
+
+				a {
+					border-bottom-color: #ccc;
+				}
+				.category-list-count {
+					color: #bbb;
+
+					&:before {
+						display: inline;
+						content: " (";
+					}
+					&:after {
+						display: inline;
+						content: ") ";
+					}
+				}
+			}
+		}
+	}
+}
+@media (max-width:767px) {
+	.container {
+		.main-inner {
+			width: auto;
+			margin-top: 0px;
+
+			.posts-expand {
+				margin: 0 20px;
+
+				.post-header {
+					text-align: center;
+				}
+				.post-title {
+					font-size: 20px;
+					text-align: center;
+				}
+				.post-meta {
+					text-align: center;
+				}
+			}
+		}
+	}
+}
+@media (min-width:1600px) {
+	.posts-expand .post-title {
+		font-size: 26px;
+	}
+}
+.post_animate {
+	opacity: 0;
+	animation: kf-menu 1s;
+	-moz-animation: kf-menu 1s; /* Firefox */
+	-webkit-animation: kf-menu 1s;  /* Safari 和 Chrome */
+	-o-animation: kf-menu 1s;
+	animation-fill-mode: forwards;
+	-moz-animation-fill-mode: forwards; /* Firefox */
+	-webkit-animation-fill-mode: forwards;  /* Safari 和 Chrome */
+	-o-animation-fill-mode: forwards;
+	animation-delay: 1s;
+	-moz-animation-delay: 1s; /* Firefox */
+	-webkit-animation-delay: 1s;  /* Safari 和 Chrome */
+	-o-animation-delay: 1s;
+}

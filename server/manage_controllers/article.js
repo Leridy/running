@@ -14,7 +14,7 @@ exports.getArticleList = function(req, res, next) {
 		if (flag) {
 			var start = req.params.begin,
 				pagesize = req.params.limit;
-			var query_str = 'SELECT sql_calc_found_rows a.id,a.title,a.userid,a.content,a.desc,a.tags,UNIX_TIMESTAMP(a.create_time) as create_time,b.name from article a left join user b on a.userid=b.id limit ' + start + ',' + pagesize;
+			var query_str = 'SELECT sql_calc_found_rows a.id,a.title,a.userid,a.content,a.desc,a.tags,UNIX_TIMESTAMP(a.create_time) as create_time,b.name from article a left join user b on a.userid=b.id order by a.id desc limit ' + start + ',' + pagesize;
 			dao.query(query_str).done(function(data) {
 				if (data.res == 0) {
 					dao.query('select found_rows() as total').done(function(result) {
