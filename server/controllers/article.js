@@ -33,26 +33,6 @@ exports.getArticle = function(req, res, next) {
 	});
 };
 
-//获取文章分类标签
-exports.getArticleTagList = function(req, res, next) {
-	var query_str = 'select sql_calc_found_rows tag_name from articleTag where is_delete=0';
-	dao.query(query_str).done(function(data) {
-		if (data.res == 0) {
-			dao.query('select found_rows() as total').done(function(result) {
-				if (result.res == 0) {
-					data.count = result.data[0].total;
-					res.json(data);
-				} else {
-					res.json(result);
-				}
-			});
-		} else {
-			res.json(data);
-		}
-	})
-	next();
-};
-
 //获取友情链接列表
 exports.getFriendshipLinkList = function(req, res, next) {
 	var query_str = 'select sql_calc_found_rows name,link_url from links where is_delete=0';
