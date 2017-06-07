@@ -1,0 +1,61 @@
+.not_found {
+	width: 980px;
+	height: 600px;
+	margin: 0 auto;
+	overflow: hidden;
+	position: relative;
+	clear: both;
+
+	.main_bg {
+		width: 980px;
+		height: 600px;
+		margin: 0 auto;
+		overflow: hidden;
+	}
+	.plaxify {
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		left: 0;
+	}
+	.note_bg {
+		top: 25px;
+		left: 50px;
+	}
+	.man_bg {
+		top: 140px;
+		left: 350px;
+	}
+	.gallery {
+		height: 265px;
+		width: 317px;
+		top: 5px;
+		left: 670px;
+		background: url(/static/img/404/404_gallery.png) no-repeat;
+
+		.nav {
+			position: absolute;
+			width: 100px;
+			height: 20px;
+			bottom: 30px;
+			right: 50px;
+
+			a {
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				background-image: url(/static/img/404/nav_404.png);
+				background-repeat: no-repeat;
+
+				&.current {
+					background-position: 0 -20px;
+				}
+			}
+		}
+	}
+	.rubbish_bg {
+		top: 420px;
+		left: 730px;
+		cursor: pointer;
+	}
+}

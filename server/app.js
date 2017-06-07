@@ -61,9 +61,9 @@ server.get('/article/get_list', article.getArticleList);
 //获取文章详情
 server.get('/article/get_detail', article.getArticle);
 //获取文章分类标签
-server.get('/article/get_article_tag_list', categories.getArticleTagList);
+server.get('/categories/get_article_tag_list', categories.getArticleTagList);
 //根据分类获取文章列表
-server.get('/article/get_article_list_by_tagname', categories.getArticleListByTagName);
+server.get('/categories/get_article_list_by_tagname', categories.getArticleListByTagName);
 //获取友情链接列表
 server.get('/article/get_friendship_link_list', article.getFriendshipLinkList);
 

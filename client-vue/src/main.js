@@ -11,8 +11,7 @@ Vue.use(vueResource);
 Vue.use(Toast);
 Vue.filter('dateFormat', dateFormat);
 Vue.config.productionTip = false;
-Vue.http.options.root = 'https://api.runningdreamer.com';
-
+Vue.http.options.root = process.env.NODE_ENV == 'development' ? '//127.0.0.1:8083' : 'https://api.runningdreamer.com';
 /* eslint-disable no-new */
 new Vue({
 	el: '#app',

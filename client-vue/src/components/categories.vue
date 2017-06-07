@@ -10,11 +10,13 @@
                         </header>
                         <div class="category-all-page">
                             <div class="category-all-title">
-                                目前共计 27 个分类
+                                目前共计{{total}}个分类
                             </div>
                             <div class="category-all">
                                 <ul class="category-list">
-                                    <li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">4</span></li>
+                                    <template v-for="(item,index) in list">
+                                        <li class="category-list-item"><a class="category-list-link" :href="'/categories/'+item.tag_name">{{item.tag_name}}</a><span class="category-list-count">{{item.total}}</span></li>
+                                    </template>
                                 </ul>
                             </div>
                         </div>
@@ -35,27 +37,27 @@ export default {
         myFooter: footer
     },
     created() {
-        document.title = 'categories';
+        document.title = '分类';
         this.loadData();
     },
     data() {
         return {
-            info: ''
+            list: [],
+            total: 0
         }
     },
     methods: {
         loadData() {
-            this.$http.get('article/get_detail', {
+            this.$http.get('categories/get_article_tag_list', {
                 params: {
-                    id: this.$route.params.id
+
                 }
             }).then(function(response) {
                 return response.json();
             }).then(response => {
                 if (response.res == 0) {
-                    var info = response.data[0];
-                    info.content = decodeURIComponent(info.content);
-                    this.info = info;
+                    this.total = response.count;
+                    this.list = response.data;
                 } else {
                     this.$toast('加载失败，请稍候重试', {
                         horizontalPosition: 'center'
