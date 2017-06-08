@@ -11,10 +11,10 @@ var connection = mysql.createConnection({
 
 });
 
-exports.query = function(querystr) {
+exports.query = function(querystr, whereArray) {
     var deferred = Q.defer(),
         result;
-    connection.query(querystr, function(err, rows, fields) {
+    var myQuery = connection.query(querystr, whereArray, function(err, rows, fields) {
         if (err) {
             result = {
                 res: -1,
@@ -29,7 +29,7 @@ exports.query = function(querystr) {
             }
         }
         deferred.resolve(result);
-    });
+    });    
     return deferred.promise;
     // connection.end(function (err) {
     //     if (err) {

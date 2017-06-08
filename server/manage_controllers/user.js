@@ -5,11 +5,15 @@ var dao = require('../dao/data_access');
 var redisClient = require('../utils/redisHelper');
 var stringHelper = require('../utils/stringHelper');
 var auth = require('./auth');
+var validator = require('validator');
 
 //后台用户登录
 exports.login = function(req, res, next) {
-	var query_str = 'select id,name,photo,reg_time from user where login_name ="' + req.params.username + '" and pwd="' + req.params.password + '" and is_admin=1';
-	dao.query(query_str).done(function(data) {
+	var username = req.params.username,
+		password = req.params.password,
+		query_str = 'select id,name,photo,reg_time from user where login_name =? and pwd=? and is_admin=1',
+		params = [username, password];
+	dao.query(query_str, params).done(function(data) {
 		if (data.res == 0 && data.data.length == 0) {
 			var res_err = {
 				res: -1,
@@ -49,7 +53,7 @@ exports.login = function(req, res, next) {
 						res: 0,
 						data: currentUInfo
 					};
-					res.json(resData);					
+					res.json(resData);
 				});
 			} else {
 				var res_err = {
@@ -101,8 +105,9 @@ exports.getMangerInfo = function(req, res, next) {
 			data: null
 		};
 		if (flag) {
-			var query_str = 'select id,name,photo,reg_time from user where id="' + uid + '" and is_admin=1';
-			dao.query(query_str).done(function(data) {
+			var query_str = 'select id,name,photo,reg_time from user where id=? and is_admin=1',
+				params = [uid];
+			dao.query(query_str, params).done(function(data) {
 				res.json(data);
 			});
 		} else {
@@ -126,23 +131,33 @@ exports.getUserList = function(req, res, next) {
 			res.json(result);
 		}
 	});
-	var start = req.params.begin,
-		pagesize = req.params.limit;
-	var query_str = 'select sql_calc_found_rows id,name,photo,login_name,is_admin,UNIX_TIMESTAMP(reg_time) as reg_time from user limit ' + start + ',' + pagesize;
-	dao.query(query_str).done(function(data) {
-		if (data.res == 0) {
-			dao.query('select found_rows() as total').done(function(result) {
-				if (result.res == 0) {
-					data.count = result.data[0].total;
-					res.json(data);
-				} else {
-					res.json(result);
-				}
-			});
-		} else {
-			res.json(data);
-		}
-	})
+	var start = parseInt(req.params.begin) || 0,
+		pagesize = parseInt(req.params.limit) || 10;
+	var query_str = 'select sql_calc_found_rows id,name,photo,login_name,is_admin,UNIX_TIMESTAMP(reg_time) as reg_time from user limit ?,?',
+		params = [start, pagesize];
+	if (validator.isDecimal(String(start)) && validator.isDecimal(String(pageSize))) {
+		dao.query(query_str, params).done(function(data) {
+			if (data.res == 0) {
+				dao.query('select found_rows() as total').done(function(result) {
+					if (result.res == 0) {
+						data.count = result.data[0].total;
+						res.json(data);
+					} else {
+						res.json(result);
+					}
+				});
+			} else {
+				res.json(data);
+			}
+		})
+	} else {
+		var result = {
+			res: -1,
+			data: null,
+			msg: '参数非法'
+		};
+		res.json(result);
+	}
 	next();
 };
 
@@ -161,8 +176,9 @@ exports.deleteUser = function(req, res, next) {
 		}
 	});
 	var id = req.params.id;
-	var query_str = 'delete from user where id="' + id + '"';
-	dao.query(query_str).done(function(data) {
+	var query_str = 'delete from user where id=?',
+		params = [id];
+	dao.query(query_str, params).done(function(data) {
 		res.json(data);
 	})
 	next();
@@ -209,19 +225,23 @@ exports.editUser = function(req, res, next) {
 					result.msg = '登录名不能为空';
 					res.json(result);
 				} else {
-					var query_str = 'select id from user where login_name="' + login_name + '" and id <> "' + id + '" limit 0,1';
-					dao.query(query_str).done(function(data) {
+					var query_str = 'select id from user where login_name=? and id <> ? limit 0,1',
+						params = [login_name, id];
+					dao.query(query_str, params).done(function(data) {
 						if (data.res == 0) {
 							if (data.data.length == 0) {
-								query_str = 'insert into user(name,photo,pwd,login_name,is_admin) values("' + name + '","' + photo + '","' + pwd + '","' + login_name + '","' + is_admin + '")';
+								query_str = 'insert into user(name,photo,pwd,login_name,is_admin) values(?,?,?,?,?)';
+								params = [name, photo, pwd, login_name, is_admin];
 								if (id > 0) {
 									if (pwd) {
-										query_str = 'update user set name="' + name + '",photo="' + photo + '",login_name="' + login_name + '",is_admin=' + is_admin + ',pwd="' + pwd + '" where id=' + id;
+										query_str = 'update user set name=?,photo=?,login_name=?,is_admin=?,pwd=? where id=?';
+										params = [name, photo, login_name, is_admin, pwd, id];
 									} else {
-										query_str = 'update user set name="' + name + '",photo="' + photo + '",login_name="' + login_name + '",is_admin=' + is_admin + ' where id=' + id;
+										query_str = 'update user set name=?,photo=?,login_name=?,is_admin=? where id=?';
+										params = [name, photo, login_name, is_admin, id];
 									}
 								}
-								dao.query(query_str).done(function(data2) {
+								dao.query(query_str, params).done(function(data2) {
 									res.json(data2);
 								})
 							} else {
@@ -254,8 +274,9 @@ exports.getUser = function(req, res, next) {
 		}
 	});
 	var id = req.params.id;
-	var query_str = 'select id,name,photo,login_name,is_admin,UNIX_TIMESTAMP(reg_time) as reg_time from user where id=' + id;
-	dao.query(query_str).done(function(data) {
+	var query_str = 'select id,name,photo,login_name,is_admin,UNIX_TIMESTAMP(reg_time) as reg_time from user where id=?',
+		params = [id];
+	dao.query(query_str, params).done(function(data) {
 		res.json(data);
 	})
 	next();

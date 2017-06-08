@@ -7,7 +7,7 @@
 		word-break: break-word;
 		font-weight: 400;
 	}
-	.post{
+	.post {
 		text-align: left;
 	}
 	.post-meta {
@@ -30,6 +30,9 @@
 .page-post-detail .post-title, .page-post-detail .post-meta {
 	text-align: center;
 }
+.post-body img {
+	max-width: 100%;
+}
 @media (max-width:767px) {
 	.container {
 		.main-inner {
@@ -51,6 +54,9 @@
 				}
 			}
 		}
+		.article_next_prev {
+			margin: 0 20px;
+		}
 	}
 }
 @media (min-width:1600px) {
@@ -68,8 +74,50 @@
 	-moz-animation-fill-mode: forwards; /* Firefox */
 	-webkit-animation-fill-mode: forwards;  /* Safari 和 Chrome */
 	-o-animation-fill-mode: forwards;
-		animation-delay: 1s;
+	animation-delay: 1s;
 	-moz-animation-delay: 1s; /* Firefox */
 	-webkit-animation-delay: 1s;  /* Safari 和 Chrome */
 	-o-animation-delay: 1s;
+}
+.article_next_prev {
+	display: block;
+	color: #666;
+	clear: both;
+	float: left;
+	margin-top: 15px;
+	padding: 0;
+	padding-top: 10px;
+
+	li {
+		list-style-type: none;
+		clear: both;
+		padding: 0 0 3px;
+		overflow: hidden;
+		cursor: pointer;
+
+		span {
+			display: block;
+			float: left;
+			width: 72px;
+			height: 26px;
+			background-color: #999999;
+			color: #fff;
+			font-size: 14px;
+			margin-right: 7px;
+		}
+		a {
+			display: block;
+			float: left;
+			font-size: 14px;
+			color: #333333;
+		}
+		&:hover {
+			span {
+				background-color: #c00;
+			}
+			a {
+				color: #c00;
+			}
+		}
+	}
 }

@@ -30,6 +30,10 @@
                         <div class="post-body" v-html="info.content"></div>
                     </article>
                 </div>
+                <ul class="article_next_prev">
+                    <li class="prev_article"><span><i class="fa fa-arrow-up"></i>上一篇</span><a href="/bboyfeiyu/article/details/48322023">Android动态换肤开源库Colorful发布</a></li>
+                    <li class="next_article"><span><i class="fa fa-arrow-down"></i>下一篇</span><a href="/bboyfeiyu/article/details/50103471">面向对象六大原则</a></li>
+                </ul>
             </div>
         </main>
         <my-footer></my-footer>
@@ -44,7 +48,7 @@ export default {
         navHeader: header,
         myFooter: footer
     },
-    created() {        
+    created() {
         this.loadData();
     },
     data() {
@@ -64,8 +68,8 @@ export default {
                 if (response.res == 0) {
                     var info = response.data[0];
                     info.content = decodeURIComponent(info.content);
-                    document.title=info.title;
-                    this.info = info;                    
+                    document.title = info.title;
+                    this.info = info;
                 } else {
                     this.$toast('加载失败，请稍候重试', {
                         horizontalPosition: 'center'
