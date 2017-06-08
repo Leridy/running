@@ -31,8 +31,14 @@
                     </article>
                 </div>
                 <ul class="article_next_prev">
-                    <li class="prev_article"><span><i class="fa fa-arrow-up"></i>上一篇</span><a href="/bboyfeiyu/article/details/48322023">Android动态换肤开源库Colorful发布</a></li>
-                    <li class="next_article"><span><i class="fa fa-arrow-down"></i>下一篇</span><a href="/bboyfeiyu/article/details/50103471">面向对象六大原则</a></li>
+                    <li class="prev_article"><span><i class="fa fa-arrow-up"></i>上一篇</span>
+                        <a :href="'/blog/'+attachData.prev_data.id" v-if="attachData.prev_data!=null">{{attachData.prev_data.title}}</a>
+                        <label v-else>没有了</label>
+                    </li>
+                    <li class="next_article"><span><i class="fa fa-arrow-down"></i>下一篇</span>
+                        <a :href="'/blog/'+attachData.next_data.id" v-if="attachData.next_data!=null">{{attachData.next_data.title}}</a>
+                        <label v-else>没有了</label>
+                    </li>
                 </ul>
             </div>
         </main>
@@ -53,7 +59,8 @@ export default {
     },
     data() {
         return {
-            info: ''
+            info: '',
+            attachData: ''
         }
     },
     methods: {
@@ -70,6 +77,26 @@ export default {
                     info.content = decodeURIComponent(info.content);
                     document.title = info.title;
                     this.info = info;
+                    this.loadPrevAndNext(info.id);
+                } else {
+                    this.$toast('加载失败，请稍候重试', {
+                        horizontalPosition: 'center'
+                    });
+                }
+            }, response => {
+
+            });
+        },
+        loadPrevAndNext(id) {
+            this.$http.get('article/get_next_prev', {
+                params: {
+                    id: id
+                }
+            }).then(function(response) {
+                return response.json();
+            }).then(response => {
+                if (response.res == 0) {
+                    this.attachData = response.data;
                 } else {
                     this.$toast('加载失败，请稍候重试', {
                         horizontalPosition: 'center'

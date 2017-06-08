@@ -3,7 +3,7 @@ var config = require('./conf/config');
 var manageUser = require('./manage_controllers/user');
 var manageArticle = require('./manage_controllers/article');
 var article = require('./controllers/article');
-var categories=require('./controllers/categories');
+var categories = require('./controllers/categories');
 var qiniuUtils = require('./utils/qiniuHelper');
 
 var server = restify.createServer();
@@ -60,6 +60,8 @@ server.post('/manage/show_or_hide_links_detail', manageArticle.showOrHideLinksDe
 server.get('/article/get_list', article.getArticleList);
 //获取文章详情
 server.get('/article/get_detail', article.getArticle);
+//获取当前文章的前一篇和后一篇
+server.get('/article/get_next_prev', article.getNextAndPrev);
 //获取文章分类标签
 server.get('/categories/get_article_tag_list', categories.getArticleTagList);
 //根据分类获取文章列表
