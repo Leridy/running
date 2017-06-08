@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <div class="not_found">
-            <img src="/static/img/404/main_bg.jpg" name="move_ele" class="main_bg plaxify" width="980" height="600" title="傻了吧  - -  当一回侦探自救吧~" data-left="10" data-top="10" data-xrange="25" data-yrange="25">
-            <img src="/static/img/404/error_txt.png" class="note_bg plaxify" width="230" height="210" name="move_ele" data-left="50" data-top="25" data-xrange="25" data-yrange="25">
-            <img src="/static/img/404/man.png" class="man_bg plaxify" width="301" height="451" title="设计师不在，只好网上扣图了 →_→" name="move_ele" data-left="350" data-top="140" data-xrange="25" data-yrange="25">
+            <img src="../assets/404/main_bg.jpg" name="move_ele" class="main_bg plaxify" width="980" height="600" title="傻了吧  - -  当一回侦探自救吧~" data-left="10" data-top="10" data-xrange="25" data-yrange="25">
+            <img src="../assets/404/error_txt.png" class="note_bg plaxify" width="230" height="210" name="move_ele" data-left="50" data-top="25" data-xrange="25" data-yrange="25">
+            <img src="../assets/404/man.png" class="man_bg plaxify" width="301" height="451" title="设计师不在，只好网上扣图了 →_→" name="move_ele" data-left="350" data-top="140" data-xrange="25" data-yrange="25">
             <ul class="gallery plaxify" name="move_ele" data-left="670" data-top="5" data-xrange="2" data-yrange="2">
                 <div class="nav" v-if="showNav">
                     <a href="javascript:void(0)" class="current"></a>
@@ -11,10 +11,10 @@
                     <a href="javascript:void(0)"></a>
                 </div>
             </ul>
-            <img src="/static/img/404/rubbish.png" class="rubbish_bg plaxify" width="143" height="96" title="翻一翻看有没有线索..." v-on:click="handleRubbishClick" name="move_ele" data-left="730" data-top="420" data-xrange="5" data-yrange="5">
+            <img src="../assets/404/rubbish.png" class="rubbish_bg plaxify" width="143" height="96" title="翻一翻看有没有线索..." v-on:click="handleRubbishClick" name="move_ele" data-left="730" data-top="420" data-xrange="5" data-yrange="5">
         </div>
         <div class="h5_not_found">
-            <img src="/static/img/404/h5-404.png">
+            <img src="../assets/404/h5-404.png">
             <p class="not_found_txt">啊哦，你要找的页面不见啦！</p>
         </div>
     </div>
@@ -31,7 +31,7 @@ export default {
     },
     data() {
         return {
-            showNav: false
+            showNav: false            
         }
     },
     methods: {
