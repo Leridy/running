@@ -15,9 +15,9 @@ export default new Router({
 		name: 'Home',
 		component: Home
 	}, {
-		path: '/blog.html?id=:id',
+		path: '/blog/:id',
 		name: 'Blog',
-		component: Blog		
+		component: Blog
 	}, {
 		path: '/categories',
 		name: 'Categories',
