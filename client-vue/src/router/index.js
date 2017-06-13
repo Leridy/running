@@ -17,7 +17,8 @@ export default new Router({
 	}, {
 		path: '/blog/:id',
 		name: 'Blog',
-		component: Blog
+		component: Blog,
+		alias: '/blog.html?id=:id'
 	}, {
 		path: '/categories',
 		name: 'Categories',
