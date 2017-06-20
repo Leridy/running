@@ -1,4 +1,4 @@
-<template>
+<template>    
     <div class="nav-header">
         <div class="header-content">
             <a class="fl header-logo animated" v-bind:class="{ rubberBand: isActive }" v-on:mouseover="sloganOver" v-on:mouseout="sloganOut" href="javascript:void(0)" v-on:click="sloganClick">
@@ -7,10 +7,12 @@
             </a>
             <ul class="fr menus">
                 <li class="menu-item">
-                    <a href="/" class="active"><i class="fa fa-home"></i>首页</a>
+                    <a href="/" class="active"> <i class="fa fa-home"></i> 首页
+                    </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/categories"><i class="fa fa-tag"></i>分类</a>
+                    <a href="/categories"> <i class="fa fa-tag"></i> 分类
+                    </a>
                 </li>
             </ul>
             <div class="site-nav-toggle">
@@ -27,26 +29,38 @@
                     <li class="menuItem menuIcon">
                         <a href="/">
                             <div class="am-flexbox am-flexbox-align-middle">
-                                <div class="am-flexbox-item"><i class="fa fa-home"></i><span>首页</span></div>
-                                <div class="am-flexbox-item txt-right"><i class="fa fa-chevron-right"></i></div>
+                                <div class="am-flexbox-item">
+                                    <i class="fa fa-home"></i>
+                                    <span>首页</span>
+                                </div>
+                                <div class="am-flexbox-item txt-right">
+                                    <i class="fa fa-chevron-right"></i>
+                                </div>
                             </div>
                         </a>
                     </li>
                     <li class="menuItem menuIcon">
                         <a href="/categories">
                             <div class="am-flexbox am-flexbox-align-middle">
-                                <div class="am-flexbox-item"><i class="fa fa-tag"></i><span>分类</span></div>
-                                <div class="am-flexbox-item txt-right"><i class="fa fa-chevron-right"></i></div>
+                                <div class="am-flexbox-item">
+                                    <i class="fa fa-tag"></i>
+                                    <span>分类</span>
+                                </div>
+                                <div class="am-flexbox-item txt-right">
+                                    <i class="fa fa-chevron-right"></i>
+                                </div>
                             </div>
                         </a>
                     </li>
                 </ul>
             </div>
-        </div>
+        </div>        
     </div>
 </template>
 <script>
 import utils from "../utils.js";
+import particlesJson from "../particlesJson.js";
+require('particles.JS');
 export default {
     name: 'header',
     data() {
@@ -55,6 +69,9 @@ export default {
             isActive: false,
             msg: 'Welcome to Your Vue.js App'
         }
+    },
+    mounted() {    	
+    	particlesJS("main", particlesJson.data);        
     },
     methods: {
         sloganOver() {
