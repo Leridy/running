@@ -6,6 +6,7 @@ import router from './router';
 import vueResource from "vue-resource";
 import Toast from 'vue-easy-toast';
 import dateFormat from "dateformat";
+require('particles.JS');
 
 Vue.use(vueResource);
 Vue.use(Toast);

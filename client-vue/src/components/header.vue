@@ -1,4 +1,4 @@
-<template>    
+<template>
     <div class="nav-header">
         <div class="header-content">
             <a class="fl header-logo animated" v-bind:class="{ rubberBand: isActive }" v-on:mouseover="sloganOver" v-on:mouseout="sloganOut" href="javascript:void(0)" v-on:click="sloganClick">
@@ -54,24 +54,24 @@
                     </li>
                 </ul>
             </div>
-        </div>        
+        </div>
     </div>
 </template>
 <script>
 import utils from "../utils.js";
 import particlesJson from "../particlesJson.js";
-require('particles.JS');
 export default {
     name: 'header',
     data() {
         return {
             showMenu: false,
-            isActive: false,
-            msg: 'Welcome to Your Vue.js App'
+            isActive: false
         }
     },
-    mounted() {    	
-    	particlesJS("main", particlesJson.data);        
+    mounted() {
+        setTimeout(() => {
+            particlesJS("main", particlesJson.data);
+        }, 2000);
     },
     methods: {
         sloganOver() {
