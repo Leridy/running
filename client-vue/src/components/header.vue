@@ -69,9 +69,11 @@ export default {
         }
     },
     mounted() {
-        setTimeout(() => {
-            particlesJS("main", particlesJson.data);
-        }, 2000);
+        if (!utils.mobileUA()) {
+            setTimeout(() => {
+                particlesJS("main", particlesJson.data);
+            }, 2000);
+        }
     },
     methods: {
         sloganOver() {
